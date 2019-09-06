@@ -14,9 +14,11 @@ extern void UIApplicationMain(int, ...);
 
 int main(int argc, char *argv[])
 {
-    id autoreleasePool = objc_msgSend(objc_msgSend(objc_getClass("NSAutoreleasePool"), sel_registerName("alloc")), sel_registerName("init"));
-    
+    Class NSAutoreleasePoolClass = objc_getClass("NSAutoreleasePool");
+    id autoreleasePool = class_createInstance(NSAutoreleasePoolClass, 0);
+    objc_msgSend(autoreleasePool, sel_registerName("init"));
+  
     UIApplicationMain(argc, argv, nil, CFSTR("AppDelegate"));
-    
+  
     objc_msgSend(autoreleasePool, sel_registerName("drain"));
 }
