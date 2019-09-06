@@ -60,6 +60,7 @@ static void initView()
     // of this method, as I do not know the @encode sequence of 'CGRect' off 
     // of the top of my head. As a result, there is a chance that the rect 
     // parameter of the method may not get passed properly.
+    // https://developer.apple.com/documentation/objectivec/1418901-class_addmethod?language=objc
     class_addMethod(ViewClass, sel_getUid("drawRect:"), (IMP) View_drawRect, "v@:");
     
     // And again, we tell the runtime that this class is now valid to be used. 
