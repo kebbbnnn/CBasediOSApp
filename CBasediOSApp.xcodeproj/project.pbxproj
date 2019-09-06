@@ -13,6 +13,7 @@
 		23728E9B154622C600ED5A71 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 23728E9A154622C600ED5A71 /* main.c */; };
 		23728E9F154622C600ED5A71 /* AppDelegate.c in Sources */ = {isa = PBXBuildFile; fileRef = 23728E9E154622C600ED5A71 /* AppDelegate.c */; };
 		23728EA71546269400ED5A71 /* View.c in Sources */ = {isa = PBXBuildFile; fileRef = 23728EA61546269400ED5A71 /* View.c */; };
+		FA9D58D02322CC9F0071B66C /* log.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9D58CF2322CC9F0071B66C /* log.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,8 @@
 		23728E9A154622C600ED5A71 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		23728E9E154622C600ED5A71 /* AppDelegate.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AppDelegate.c; sourceTree = "<group>"; };
 		23728EA61546269400ED5A71 /* View.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = View.c; sourceTree = "<group>"; };
+		FA9D58CF2322CC9F0071B66C /* log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = log.m; sourceTree = "<group>"; };
+		FA9D58D12322CCC30071B66C /* log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +75,7 @@
 			children = (
 				23728E9E154622C600ED5A71 /* AppDelegate.c */,
 				23728EA61546269400ED5A71 /* View.c */,
+				FA9D58CE2322CC760071B66C /* Helpers */,
 				23728E95154622C600ED5A71 /* Supporting Files */,
 			);
 			path = CBasediOSApp;
@@ -84,6 +88,15 @@
 				23728E9A154622C600ED5A71 /* main.c */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FA9D58CE2322CC760071B66C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				FA9D58CF2322CC9F0071B66C /* log.m */,
+				FA9D58D12322CCC30071B66C /* log.h */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,6 +163,7 @@
 			files = (
 				23728E9B154622C600ED5A71 /* main.c in Sources */,
 				23728E9F154622C600ED5A71 /* AppDelegate.c in Sources */,
+				FA9D58D02322CC9F0071B66C /* log.m in Sources */,
 				23728EA71546269400ED5A71 /* View.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
