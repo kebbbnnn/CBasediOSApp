@@ -27,6 +27,7 @@
 		23728EA61546269400ED5A71 /* View.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = View.c; sourceTree = "<group>"; };
 		FA9D58CF2322CC9F0071B66C /* log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = log.m; sourceTree = "<group>"; };
 		FA9D58D12322CCC30071B66C /* log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
+		FA9D58D22322DA2A0071B66C /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +96,7 @@
 			children = (
 				FA9D58CF2322CC9F0071B66C /* log.m */,
 				FA9D58D12322CCC30071B66C /* log.h */,
+				FA9D58D22322DA2A0071B66C /* constants.h */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";

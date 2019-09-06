@@ -8,6 +8,8 @@
 #include <objc/runtime.h>
 #include <objc/message.h>
 #include <CoreGraphics/CoreGraphics.h>
+#include "constants.h"
+
 
 // This is equivalent to creating a @class with one public variable named 'window'.
 struct AppDel
@@ -29,18 +31,21 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
     // this entire method is the objc-runtime based version of the standard View-Based application's launch code, so nothing here really should surprise you.
     // one thing important to note, though is that we use `sel_getUid()` instead of @selector().
     // this is because @selector is an objc language construct, and the application would not have been created in C if I used @selector.
-    self->window = objc_msgSend(objc_getClass("UIWindow"), sel_getUid("alloc"));
-    self->window = objc_msgSend(self->window, sel_getUid("initWithFrame:"), (struct CGRect) { 0, 0, 320, 480 });
+    Class UIWindowClass = objc_getClass("UIWindow");
+    self->window = class_createInstance(UIWindowClass, 0);
+    self->window = objc_msgSend(self->window, sel_getUid("initWithFrame:"), SCREEN_RECT);
     
     // here, we are creating our view controller, and our view. note the use of objc_getClass, because we cannot reference UIViewController directly in C.
-    id viewController = objc_msgSend(objc_msgSend(objc_getClass("UIViewController"), sel_getUid("alloc")), sel_getUid("init"));
+    Class UIViewControllerClass = objc_getClass("UIViewController");
+    id viewController = objc_msgSend(class_createInstance(UIViewControllerClass, 0), sel_getUid("init"));
     
     // creating our custom view class, there really isn't too much 
     // to say here other than we are hard-coding the screen's bounds, 
     // because returning a struct from a `objc_msgSend()` (via 
     // [[UIScreen mainScreen] bounds]) requires a different function call
     // and is finicky at best.
-    id view = objc_msgSend(objc_msgSend(objc_getClass("View"), sel_getUid("alloc")), sel_getUid("initWithFrame:"), (struct CGRect) { 0, 0, 320, 480 });
+    Class ViewClass = objc_getClass("View");
+    id view = objc_msgSend(class_createInstance(ViewClass, 0), sel_getUid("initWithFrame:"), SCREEN_RECT);
     
     // here we simply add the view to the view controller, and add the viewController to the window.
     objc_msgSend(objc_msgSend(viewController, sel_getUid("view")), sel_getUid("addSubview:"), view);

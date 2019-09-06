@@ -7,6 +7,7 @@
 //
 #include <objc/runtime.h>
 #include <CoreGraphics/CoreGraphics.h>
+#include "constants.h"
 
 // This is a strong reference to the class of our custom view,
 // In case we need it in the future.
@@ -35,13 +36,13 @@ void View_drawRect(id self, SEL _cmd, CGRect rect)
     CGContextSetFillColor(context, (CGFloat []){ 1, 1, 1, 1 });
     
     // here, we simply add and draw the rect to the screen
-    CGContextAddRect(context, (struct CGRect) { 0, 0, 320, 480 });
+    CGContextAddRect(context, SCREEN_RECT);
     CGContextFillPath(context);
     
     // and we now set the drawing color to red, then add another rectangle
     // and draw to the screen
     CGContextSetFillColor(context, (CGFloat []) { 1, 0, 0, 1 });
-    CGContextAddRect(context, (struct CGRect) { 10, 10, 20, 20 });
+    CGContextAddRect(context, (struct CGRect) { 10, 20, 20, 20 });
     CGContextFillPath(context);
 }
 
