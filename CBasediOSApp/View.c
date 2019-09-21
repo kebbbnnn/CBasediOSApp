@@ -9,8 +9,6 @@
 #include <CoreGraphics/CoreGraphics.h>
 #include "constants.h"
 
-#define VIEW_ARGS_ENC "v@:{CGRect={CGPoint=ff}{CGSize=ff}}"
-
 // This is a strong reference to the class of our custom view,
 // In case we need it in the future.
 Class ViewClass;
@@ -35,7 +33,7 @@ void View_drawRect(id self, SEL _cmd, CGRect rect)
     // If this wasn't a demo application, I would strongly recommend against this,
     // but for the most part you can be pretty sure that this is a safe move 
     // in an iOS application.
-    CGContextSetFillColor(context, (CGFloat []){ 1, 1, 1, 1 });
+    CGContextSetFillColor(context, (CGFloat []){ 1, 0, 0, 1 });
     
     // here, we simply add and draw the rect to the screen
     CGContextAddRect(context, SCREEN_RECT);
@@ -43,7 +41,7 @@ void View_drawRect(id self, SEL _cmd, CGRect rect)
     
     // and we now set the drawing color to red, then add another rectangle
     // and draw to the screen
-    CGContextSetFillColor(context, (CGFloat []) { 1, 0, 0, 1 });
+    CGContextSetFillColor(context, (CGFloat []) { 1, 1, 1, 1 });
     CGContextAddRect(context, (struct CGRect) { 10, 20, 20, 20 });
     CGContextFillPath(context);
 }

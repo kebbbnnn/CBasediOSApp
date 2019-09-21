@@ -9,6 +9,7 @@
 #include <objc/message.h>
 #include <CoreGraphics/CoreGraphics.h>
 #include "constants.h"
+#include "log.h"
 
 
 // This is equivalent to creating a @class with one public variable named 'window'.
@@ -38,7 +39,11 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
     // here, we are creating our view controller, and our view. note the use of objc_getClass, because we cannot reference UIViewController directly in C.
     Class UIViewControllerClass = objc_getClass("UIViewController");
     id viewController = objc_msgSend(class_createInstance(UIViewControllerClass, 0), sel_getUid("init"));
-    
+  
+    Class ScrollViewClass = objc_getClass("ScrollView");
+    id scrollView = objc_msgSend(class_createInstance(ScrollViewClass, 0), sel_getUid("initWithFrame:"), SCREEN_RECT);
+    objc_msgSend(scrollView, sel_getUid("enableBounce:"), TRUE);
+
     // creating our custom view class, there really isn't too much 
     // to say here other than we are hard-coding the screen's bounds, 
     // because returning a struct from a `objc_msgSend()` (via 
@@ -48,13 +53,20 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
     id view = objc_msgSend(class_createInstance(ViewClass, 0), sel_getUid("initWithFrame:"), SCREEN_RECT);
     
     // here we simply add the view to the view controller, and add the viewController to the window.
-    objc_msgSend(objc_msgSend(viewController, sel_getUid("view")), sel_getUid("addSubview:"), view);
+    //objc_msgSend(objc_msgSend(viewController, sel_getUid("view")), sel_getUid("addSubview:"), view);
+    objc_msgSend(scrollView, sel_getUid("addSubview:"), view);
+  
+    objc_msgSend(objc_msgSend(viewController, sel_getUid("view")), sel_getUid("addSubview:"), scrollView);
     objc_msgSend(self->window, sel_getUid("setRootViewController:"), viewController);
     
     // finally, we display the window on-screen.
     objc_msgSend(self->window, sel_getUid("makeKeyAndVisible"));
     
     return YES;
+}
+
+void AppDel_didEnterBackground(struct AppDel *self, SEL _cmd, void *application) {
+    debug("app did enter background.");
 }
 
 // note the use of the gcc attribute extension (constructor). 
@@ -77,7 +89,10 @@ static void initAppDel()
     // function defined above. Notice the final parameter. This tells the runtime
     // the types of arguments received by the function.
     class_addMethod(AppDelClass, sel_getUid("application:didFinishLaunchingWithOptions:"), (IMP) AppDel_didFinishLaunching, "i@:@@");
-    
+  
+    //- (void)applicationDidEnterBackground:(UIApplication *)application NS_AVAILABLE_IOS(4_0);
+    class_addMethod(AppDelClass, sel_getUid("applicationDidEnterBackground:"), (IMP) AppDel_didEnterBackground, "v@:@");
+  
     // Finally we tell the runtime that we have finished describing the class and 
     // we can let the rest of the application use it.
     objc_registerClassPair(AppDelClass);
