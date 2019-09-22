@@ -42,7 +42,7 @@ void View_drawRect(id self, SEL _cmd, CGRect rect)
     // and we now set the drawing color to red, then add another rectangle
     // and draw to the screen
     CGContextSetFillColor(context, (CGFloat []) { 1, 1, 1, 1 });
-    CGContextAddRect(context, (struct CGRect) { 10, 20, 20, 20 });
+    CGContextAddRect(context, (struct CGRect) { ((SCREEN_RECT.size.width * 0.5) - 10), 20, 20, 20 });
     CGContextFillPath(context);
 }
 
@@ -55,7 +55,7 @@ static void initView()
     // Once again, just like the app delegate, we tell the runtime to 
     // create a new class, this time a subclass of 'UIView' and named 'View'.
     ViewClass = objc_allocateClassPair((Class) objc_getClass("UIView"), "View", 0);
-    
+  
     // and again, we tell the runtime to add a function called -drawRect: 
     // to our custom view. Note that there is an error in the type-specification
     // of this method, as I do not know the @encode sequence of 'CGRect' off 

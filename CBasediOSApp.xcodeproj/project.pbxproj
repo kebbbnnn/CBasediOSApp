@@ -13,6 +13,8 @@
 		23728E9B154622C600ED5A71 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 23728E9A154622C600ED5A71 /* main.c */; };
 		23728E9F154622C600ED5A71 /* AppDelegate.c in Sources */ = {isa = PBXBuildFile; fileRef = 23728E9E154622C600ED5A71 /* AppDelegate.c */; };
 		23728EA71546269400ED5A71 /* View.c in Sources */ = {isa = PBXBuildFile; fileRef = 23728EA61546269400ED5A71 /* View.c */; };
+		FA93130D2335D8F200E85BAC /* BigLabelView.c in Sources */ = {isa = PBXBuildFile; fileRef = FA93130C2335D8F200E85BAC /* BigLabelView.c */; };
+		FA93131223372B2400E85BAC /* UILabel+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93131123372B2400E85BAC /* UILabel+Extension.m */; };
 		FA9D58D02322CC9F0071B66C /* log.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9D58CF2322CC9F0071B66C /* log.m */; };
 		FA9D58D52322EED60071B66C /* ScrollView.c in Sources */ = {isa = PBXBuildFile; fileRef = FA9D58D42322EED60071B66C /* ScrollView.c */; };
 		FA9D58DA23255DF40071B66C /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9D58D923255DF40071B66C /* UIScrollView+Extension.m */; };
@@ -27,6 +29,9 @@
 		23728E9A154622C600ED5A71 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		23728E9E154622C600ED5A71 /* AppDelegate.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AppDelegate.c; sourceTree = "<group>"; };
 		23728EA61546269400ED5A71 /* View.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = View.c; sourceTree = "<group>"; };
+		FA93130C2335D8F200E85BAC /* BigLabelView.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = BigLabelView.c; sourceTree = "<group>"; };
+		FA93131123372B2400E85BAC /* UILabel+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Extension.m"; sourceTree = "<group>"; };
+		FA93131323372B3700E85BAC /* UILabel+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+Extension.h"; sourceTree = "<group>"; };
 		FA9D58CF2322CC9F0071B66C /* log.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = log.m; sourceTree = "<group>"; };
 		FA9D58D12322CCC30071B66C /* log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
 		FA9D58D22322DA2A0071B66C /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
@@ -82,6 +87,7 @@
 				23728E9E154622C600ED5A71 /* AppDelegate.c */,
 				23728EA61546269400ED5A71 /* View.c */,
 				FA9D58D42322EED60071B66C /* ScrollView.c */,
+				FA93130C2335D8F200E85BAC /* BigLabelView.c */,
 				FA9D58D623255BAE0071B66C /* Extensions */,
 				FA9D58CE2322CC760071B66C /* Helpers */,
 				23728E95154622C600ED5A71 /* Supporting Files */,
@@ -113,6 +119,8 @@
 			children = (
 				FA9D58D923255DF40071B66C /* UIScrollView+Extension.m */,
 				FA9D58DB23255E450071B66C /* UIScrollView+Extension.h */,
+				FA93131123372B2400E85BAC /* UILabel+Extension.m */,
+				FA93131323372B3700E85BAC /* UILabel+Extension.h */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -183,6 +191,8 @@
 				23728E9F154622C600ED5A71 /* AppDelegate.c in Sources */,
 				FA9D58D02322CC9F0071B66C /* log.m in Sources */,
 				FA9D58DA23255DF40071B66C /* UIScrollView+Extension.m in Sources */,
+				FA93131223372B2400E85BAC /* UILabel+Extension.m in Sources */,
+				FA93130D2335D8F200E85BAC /* BigLabelView.c in Sources */,
 				23728EA71546269400ED5A71 /* View.c in Sources */,
 				FA9D58D52322EED60071B66C /* ScrollView.c in Sources */,
 			);

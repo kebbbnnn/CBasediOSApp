@@ -51,7 +51,11 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
     // and is finicky at best.
     Class ViewClass = objc_getClass("View");
     id view = objc_msgSend(class_createInstance(ViewClass, 0), sel_getUid("initWithFrame:"), SCREEN_RECT);
-    
+  
+    Class BigLabelViewClass = objc_getClass("BigLabelView");
+    id labelView = objc_msgSend(class_createInstance(BigLabelViewClass, 0), sel_getUid("init:"), NULL);
+    objc_msgSend(view, sel_getUid("addSubview:"), labelView);
+  
     // here we simply add the view to the view controller, and add the viewController to the window.
     //objc_msgSend(objc_msgSend(viewController, sel_getUid("view")), sel_getUid("addSubview:"), view);
     objc_msgSend(scrollView, sel_getUid("addSubview:"), view);
