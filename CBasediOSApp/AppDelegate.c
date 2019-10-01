@@ -8,9 +8,11 @@
 #include <objc/runtime.h>
 #include <objc/message.h>
 #include <CoreGraphics/CoreGraphics.h>
+#include <CoreFoundation/CoreFoundation.h>
 #include "constants.h"
+#include "read_data.h"
 #include "log.h"
-
+#include "parson.h"
 
 // This is equivalent to creating a @class with one public variable named 'window'.
 struct AppDel
@@ -43,7 +45,8 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
     Class ScrollViewClass = objc_getClass("ScrollView");
     id scrollView = objc_msgSend(class_createInstance(ScrollViewClass, 0), sel_getUid("initWithFrame:"), SCREEN_RECT);
     objc_msgSend(scrollView, sel_getUid("enableBounce:"), TRUE);
-
+    objc_msgSend(scrollView, sel_getUid("setupDelegate:"), NULL);
+  
     // creating our custom view class, there really isn't too much 
     // to say here other than we are hard-coding the screen's bounds, 
     // because returning a struct from a `objc_msgSend()` (via 
@@ -54,6 +57,23 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
   
     Class BigLabelViewClass = objc_getClass("BigLabelView");
     id labelView = objc_msgSend(class_createInstance(BigLabelViewClass, 0), sel_getUid("init:"), NULL);
+  
+    char *json = load_file(CFSTR("objs"), CFSTR("json"));
+    //debug("json: %s", json);
+    JSON_Value *root_value = json_parse_string(json);
+    JSON_Array *array = json_value_get_array(root_value);
+    size_t count = json_array_get_count(array);
+  
+    srand((unsigned int)time(0));
+    size_t index = rand() % count;
+  
+    const char *string = json_array_get_string(array, index);
+    //debug("index: %zu, string: %s", index, string);
+  
+    objc_msgSend(labelView, sel_getUid("loadText:"), string);
+  
+    free(json);
+  
     objc_msgSend(view, sel_getUid("addSubview:"), labelView);
   
     // here we simply add the view to the view controller, and add the viewController to the window.
@@ -65,7 +85,7 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
     
     // finally, we display the window on-screen.
     objc_msgSend(self->window, sel_getUid("makeKeyAndVisible"));
-    
+  
     return YES;
 }
 

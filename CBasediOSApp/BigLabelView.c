@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <CoreGraphics/CoreGraphics.h>
 #include "constants.h"
+#include "sb.h"
 #include "log.h"
 
 Class BigLabelViewClass;
@@ -53,12 +54,24 @@ id BigLabelView_init(id self, SEL _cmd)
     CGRect (*sendRectFn)(id receiver, SEL operation);
     sendRectFn = (CGRect(*)(id, SEL))objc_msgSend_stret;
     CGRect screenBounds = sendRectFn(screen, sel_getUid("bounds"));
+    CGFloat left = 10, top = 100;
+    CGFloat width = screenBounds.size.width - (left * 2);
+    CGFloat height = (screenBounds.size.width * 0.50) + top;
   
-    objc_msgSend(self, sel_getUid("initWithFrame:"), (struct CGRect) { 0, 80, screenBounds.size.width, 180 });
+    objc_msgSend(self, sel_getUid("initWithFrame:"), (struct CGRect) { left, top, width, height });
   
-    const char *string = "Hello World!";
-    id stringVal = objc_msgSend((id) objc_getClass("NSString"), sel_registerName("stringWithUTF8String:"), string);
-    objc_msgSend(self, sel_getUid("setLabel:"), stringVal);
+    return self;
+}
+
+id BigLabelView_loadText(id self, SEL _cmd, const char *string)
+{
+    StringBuilder *sb = sb_create();
+    sb_appendf(sb, "Never have I ever %s.", string);
+  
+    id str_obj = objc_msgSend((id) objc_getClass("NSString"), sel_registerName("stringWithUTF8String:"), sb_concat(sb));
+    objc_msgSend(self, sel_getUid("setLabel:"), str_obj);
+  
+    sb_free(sb);
   
     return self;
 }
@@ -73,8 +86,11 @@ static void initView()
     // create a new class, this time a subclass of 'UIView' and named 'View'.
     BigLabelViewClass = objc_allocateClassPair((Class) objc_getClass("UILabel"), "BigLabelView", 0);
   
-    //class_addMethod(BigLabelViewClass, sel_getUid("drawRect:"), (IMP) BigLabelView_drawRect, VIEW_ARGS_ENC);
+    // We tell the runtime to add a function called init: and loadText:
+    // to our custom view.
+    // https://developer.apple.com/documentation/objectivec/1418901-class_addmethod?language=objc
     class_addMethod(BigLabelViewClass, sel_getUid("init:"), (IMP) BigLabelView_init, "@@:");
+    class_addMethod(BigLabelViewClass, sel_getUid("loadText:"), (IMP) BigLabelView_loadText, "@@:*");
   
     objc_registerClassPair(BigLabelViewClass);
 }

@@ -16,10 +16,9 @@
   [self setText: string];
   [self setTextColor: [UIColor whiteColor]];
   [self setFont: [UIFont systemFontOfSize: 34]];
-  [self setAdjustsFontSizeToFitWidth: YES];
   [self setTextAlignment: ALIGN_CENTER];
-  //[self setNumberOfLines: 0];
-  //[self sizeToFit];
+  [self setNumberOfLines: 0];
+  [self sizeToFit];
   
   NSLog(@"title: %@", self.text);
 }
