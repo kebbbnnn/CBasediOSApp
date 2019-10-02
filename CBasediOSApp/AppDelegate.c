@@ -13,6 +13,7 @@
 #include "read_data.h"
 #include "log.h"
 #include "parson.h"
+#include "defer.h"
 
 // This is equivalent to creating a @class with one public variable named 'window'.
 struct AppDel
@@ -68,11 +69,15 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
     size_t index = rand() % count;
   
     const char *string = json_array_get_string(array, index);
-    //debug("index: %zu, string: %s", index, string);
+    
+    defer {
+        free((char*)string);
+        free(array);
+        free(root_value);
+        free(json);
+    };
   
     objc_msgSend(labelView, sel_getUid("loadText:"), string);
-  
-    free(json);
   
     objc_msgSend(view, sel_getUid("addSubview:"), labelView);
   

@@ -17,6 +17,7 @@
 
 Class ScrollViewClass;
 __unsafe_unretained Protocol *ScrollViewDelegate;
+bool met_negative_pull_down;
 
 // Notice this. We must create this as an extern function, as we cannot include all
 // of UIKit. This works, but is definitely not optimal.
@@ -47,7 +48,18 @@ void ScrollView_drawRect(id self, SEL _cmd, CGRect rect)
 
 void ScrollView_scrollViewDidScroll(id self, SEL _cmd, id scroll_view)
 {
-    debug("did scroll");
+    Ivar ivar = class_getInstanceVariable(ScrollViewClass, "_lastSetContentOffsetUnrounded");
+    ptrdiff_t offset = ivar_getOffset(ivar);
+    CGPoint contentOffset = *((CGPoint *)((uintptr_t)self + offset));
+    CGFloat y = contentOffset.y;
+    
+    if (y < -70){ met_negative_pull_down = true; }
+    
+    if (fabs(y) <= 20 && met_negative_pull_down)
+    {
+        // refresh
+        met_negative_pull_down = false;
+    }
 }
 
 void ScrollView_setupDelegate(id self, SEL _cmd)

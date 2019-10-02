@@ -23,6 +23,7 @@
 		FA9D58D02322CC9F0071B66C /* log.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9D58CF2322CC9F0071B66C /* log.m */; };
 		FA9D58D52322EED60071B66C /* ScrollView.c in Sources */ = {isa = PBXBuildFile; fileRef = FA9D58D42322EED60071B66C /* ScrollView.c */; };
 		FA9D58DA23255DF40071B66C /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9D58D923255DF40071B66C /* UIScrollView+Extension.m */; };
+		FACFD3E023449EA5009D0293 /* Dumper.c in Sources */ = {isa = PBXBuildFile; fileRef = FACFD3DF23449EA5009D0293 /* Dumper.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,8 @@
 		FA9D58D42322EED60071B66C /* ScrollView.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ScrollView.c; sourceTree = "<group>"; };
 		FA9D58D923255DF40071B66C /* UIScrollView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Extension.m"; sourceTree = "<group>"; };
 		FA9D58DB23255E450071B66C /* UIScrollView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Extension.h"; sourceTree = "<group>"; };
+		FACFD3DE23449E82009D0293 /* Dumper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dumper.h; sourceTree = "<group>"; };
+		FACFD3DF23449EA5009D0293 /* Dumper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Dumper.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +142,8 @@
 				FA9D58D22322DA2A0071B66C /* constants.h */,
 				FA9313192337ACD500E85BAC /* read_data.h */,
 				FA93131A2337ACFE00E85BAC /* read_data.c */,
+				FACFD3DE23449E82009D0293 /* Dumper.h */,
+				FACFD3DF23449EA5009D0293 /* Dumper.c */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -217,6 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FACFD3E023449EA5009D0293 /* Dumper.c in Sources */,
 				FA39E571233B879B00FF2ACC /* defer.h in Sources */,
 				FA39E56B2338F81A00FF2ACC /* sb.c in Sources */,
 				23728E9B154622C600ED5A71 /* main.c in Sources */,
