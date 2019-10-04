@@ -31,20 +31,30 @@ Class AppDelClass;
 // note the fact that we use `void *` for the 'application' and 'options' fields, as we need no reference to them for this to work. A generic id would suffice here as well.
 BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application, void *options)
 {
+    id const screen = objc_msgSend((id)objc_getClass("UIScreen"), sel_getUid("mainScreen"));
+    
+    //Get screen bounds
+    //Trick to return a struct from objc_msgSend_stret
+    //http://blog.lazerwalker.com/objective-c,/code/2013/10/12/the-objective-c-runtime-and-objc-msgsend-stret.html
+    
+    CGRect (*sendRectFn)(id receiver, SEL operation);
+    sendRectFn = (CGRect(*)(id, SEL))objc_msgSend_stret;
+    CGRect screenBounds = sendRectFn(screen, sel_getUid("bounds"));
+    
     // we +alloc and -initWithFrame: our window here, so that we can have it show on screen (eventually).
     // this entire method is the objc-runtime based version of the standard View-Based application's launch code, so nothing here really should surprise you.
     // one thing important to note, though is that we use `sel_getUid()` instead of @selector().
     // this is because @selector is an objc language construct, and the application would not have been created in C if I used @selector.
     Class UIWindowClass = objc_getClass("UIWindow");
     self->window = class_createInstance(UIWindowClass, 0);
-    self->window = objc_msgSend(self->window, sel_getUid("initWithFrame:"), SCREEN_RECT);
+    self->window = objc_msgSend(self->window, sel_getUid("initWithFrame:"), screenBounds);
     
     // here, we are creating our view controller, and our view. note the use of objc_getClass, because we cannot reference UIViewController directly in C.
     Class UIViewControllerClass = objc_getClass("UIViewController");
     id viewController = objc_msgSend(class_createInstance(UIViewControllerClass, 0), sel_getUid("init"));
   
     Class ScrollViewClass = objc_getClass("ScrollView");
-    id scrollView = objc_msgSend(class_createInstance(ScrollViewClass, 0), sel_getUid("initWithFrame:"), SCREEN_RECT);
+    id scrollView = objc_msgSend(class_createInstance(ScrollViewClass, 0), sel_getUid("initWithFrame:"), screenBounds);
     objc_msgSend(scrollView, sel_getUid("enableBounce:"), TRUE);
     objc_msgSend(scrollView, sel_getUid("setupDelegate:"), NULL);
   
@@ -54,10 +64,10 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
     // [[UIScreen mainScreen] bounds]) requires a different function call
     // and is finicky at best.
     Class ViewClass = objc_getClass("View");
-    id view = objc_msgSend(class_createInstance(ViewClass, 0), sel_getUid("initWithFrame:"), SCREEN_RECT);
+    id view = objc_msgSend(class_createInstance(ViewClass, 0), sel_getUid("initWithFrame:"), screenBounds);
   
     Class BigLabelViewClass = objc_getClass("BigLabelView");
-    id labelView = objc_msgSend(class_createInstance(BigLabelViewClass, 0), sel_getUid("init:"), NULL);
+    id labelView = objc_msgSend(class_createInstance(BigLabelViewClass, 0), sel_getUid("init:"));
   
     char *json = load_file(CFSTR("objs"), CFSTR("json"));
     //debug("json: %s", json);
@@ -69,17 +79,11 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
     size_t index = rand() % count;
   
     const char *string = json_array_get_string(array, index);
-    
-    defer {
-        free((char*)string);
-        free(array);
-        free(root_value);
-        free(json);
-    };
   
     objc_msgSend(labelView, sel_getUid("loadText:"), string);
-  
     objc_msgSend(view, sel_getUid("addSubview:"), labelView);
+    
+    json_value_free(root_value);
   
     // here we simply add the view to the view controller, and add the viewController to the window.
     //objc_msgSend(objc_msgSend(viewController, sel_getUid("view")), sel_getUid("addSubview:"), view);

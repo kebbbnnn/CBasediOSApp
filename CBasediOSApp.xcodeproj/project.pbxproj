@@ -17,13 +17,13 @@
 		FA39E56F233A5A6500FF2ACC /* parson.c in Sources */ = {isa = PBXBuildFile; fileRef = FA39E56E233A5A6500FF2ACC /* parson.c */; };
 		FA39E571233B879B00FF2ACC /* defer.h in Sources */ = {isa = PBXBuildFile; fileRef = FA39E570233B85B000FF2ACC /* defer.h */; settings = {COMPILER_FLAGS = "-fblocks -lBlocksRuntime"; }; };
 		FA93130D2335D8F200E85BAC /* BigLabelView.c in Sources */ = {isa = PBXBuildFile; fileRef = FA93130C2335D8F200E85BAC /* BigLabelView.c */; };
-		FA93131223372B2400E85BAC /* UILabel+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = FA93131123372B2400E85BAC /* UILabel+Extension.m */; };
 		FA9313182337651000E85BAC /* objs.json in Resources */ = {isa = PBXBuildFile; fileRef = FA9313172337651000E85BAC /* objs.json */; };
 		FA93131B2337ACFE00E85BAC /* read_data.c in Sources */ = {isa = PBXBuildFile; fileRef = FA93131A2337ACFE00E85BAC /* read_data.c */; };
 		FA9D58D02322CC9F0071B66C /* log.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9D58CF2322CC9F0071B66C /* log.m */; };
 		FA9D58D52322EED60071B66C /* ScrollView.c in Sources */ = {isa = PBXBuildFile; fileRef = FA9D58D42322EED60071B66C /* ScrollView.c */; };
 		FA9D58DA23255DF40071B66C /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9D58D923255DF40071B66C /* UIScrollView+Extension.m */; };
 		FACFD3E023449EA5009D0293 /* Dumper.c in Sources */ = {isa = PBXBuildFile; fileRef = FACFD3DF23449EA5009D0293 /* Dumper.c */; };
+		FACFD3E32344C966009D0293 /* eventbus.c in Sources */ = {isa = PBXBuildFile; fileRef = FACFD3E22344C966009D0293 /* eventbus.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,8 +41,6 @@
 		FA39E56E233A5A6500FF2ACC /* parson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parson.c; sourceTree = "<group>"; };
 		FA39E570233B85B000FF2ACC /* defer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = defer.h; sourceTree = "<group>"; };
 		FA93130C2335D8F200E85BAC /* BigLabelView.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = BigLabelView.c; sourceTree = "<group>"; };
-		FA93131123372B2400E85BAC /* UILabel+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Extension.m"; sourceTree = "<group>"; };
-		FA93131323372B3700E85BAC /* UILabel+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+Extension.h"; sourceTree = "<group>"; };
 		FA9313172337651000E85BAC /* objs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = objs.json; sourceTree = "<group>"; };
 		FA9313192337ACD500E85BAC /* read_data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = read_data.h; sourceTree = "<group>"; };
 		FA93131A2337ACFE00E85BAC /* read_data.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = read_data.c; sourceTree = "<group>"; };
@@ -54,6 +52,8 @@
 		FA9D58DB23255E450071B66C /* UIScrollView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Extension.h"; sourceTree = "<group>"; };
 		FACFD3DE23449E82009D0293 /* Dumper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dumper.h; sourceTree = "<group>"; };
 		FACFD3DF23449EA5009D0293 /* Dumper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Dumper.c; sourceTree = "<group>"; };
+		FACFD3E12344C92C009D0293 /* eventbus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = eventbus.h; sourceTree = "<group>"; };
+		FACFD3E22344C966009D0293 /* eventbus.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = eventbus.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +130,8 @@
 				FA39E5692338F81A00FF2ACC /* sb.c */,
 				FA39E56A2338F81A00FF2ACC /* sb.h */,
 				FA39E570233B85B000FF2ACC /* defer.h */,
+				FACFD3E12344C92C009D0293 /* eventbus.h */,
+				FACFD3E22344C966009D0293 /* eventbus.c */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -153,8 +155,6 @@
 			children = (
 				FA9D58D923255DF40071B66C /* UIScrollView+Extension.m */,
 				FA9D58DB23255E450071B66C /* UIScrollView+Extension.h */,
-				FA93131123372B2400E85BAC /* UILabel+Extension.m */,
-				FA93131323372B3700E85BAC /* UILabel+Extension.h */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -225,11 +225,11 @@
 				FACFD3E023449EA5009D0293 /* Dumper.c in Sources */,
 				FA39E571233B879B00FF2ACC /* defer.h in Sources */,
 				FA39E56B2338F81A00FF2ACC /* sb.c in Sources */,
+				FACFD3E32344C966009D0293 /* eventbus.c in Sources */,
 				23728E9B154622C600ED5A71 /* main.c in Sources */,
 				23728E9F154622C600ED5A71 /* AppDelegate.c in Sources */,
 				FA9D58D02322CC9F0071B66C /* log.m in Sources */,
 				FA9D58DA23255DF40071B66C /* UIScrollView+Extension.m in Sources */,
-				FA93131223372B2400E85BAC /* UILabel+Extension.m in Sources */,
 				FA93130D2335D8F200E85BAC /* BigLabelView.c in Sources */,
 				FA39E56F233A5A6500FF2ACC /* parson.c in Sources */,
 				23728EA71546269400ED5A71 /* View.c in Sources */,

@@ -9,12 +9,20 @@
 #include <objc/runtime.h>
 #include <objc/message.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <CoreGraphics/CoreGraphics.h>
 #include "constants.h"
+#include "eventbus.h"
 #include "sb.h"
 #include "log.h"
+#include "parson.h"
+#include "read_data.h"
+
+EVENTBUS_DEFINE_EVENT(scroll_refresh_event);
 
 Class BigLabelViewClass;
+id _self;
 
 // Notice this. We must create this as an extern function, as we cannot include all
 // of UIKit. This works, but is definitely not optimal.
@@ -25,22 +33,28 @@ extern CGContextRef UIGraphicsGetCurrentContext();
 // stuck with the C-based mentality of the application.
 void BigLabelView_drawRect(id self, SEL _cmd, CGRect rect)
 {
-  // We are simply getting the graphics context of the current view,
-  // so we can draw to it
-  CGContextRef context = UIGraphicsGetCurrentContext();
-  
-  // Then we set it's fill color to white so that we clear the background.
-  // Note the cast to (CGFloat []). Otherwise, this would give a warning
-  //  saying "invalid cast from type 'int' to 'CGFloat *', or
-  // 'extra elements in initializer'. Also note the assumption of RGBA.
-  // If this wasn't a demo application, I would strongly recommend against this,
-  // but for the most part you can be pretty sure that this is a safe move
-  // in an iOS application.
-  CGContextSetFillColor(context, (CGFloat []){ 0, 0.5, 0, 0.5 });
-  
-  // here, we simply add and draw the rect to the screen
-  CGContextAddRect(context, (struct CGRect) { 0, 0, 320, 80 });
-  CGContextFillPath(context);
+//    // We are simply getting the graphics context of the current view,
+//    // so we can draw to it
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//
+//    // Then we set it's fill color to white so that we clear the background.
+//    // Note the cast to (CGFloat []). Otherwise, this would give a warning
+//    //  saying "invalid cast from type 'int' to 'CGFloat *', or
+//    // 'extra elements in initializer'. Also note the assumption of RGBA.
+//    // If this wasn't a demo application, I would strongly recommend against this,
+//    // but for the most part you can be pretty sure that this is a safe move
+//    // in an iOS application.
+//    CGContextSetFillColor(context, (CGFloat []){ 1, 1, 1, 1 });
+//
+//    // here, we simply add and draw the rect to the screen
+//    CGContextAddRect(context, SCREEN_RECT);
+//    CGContextFillPath(context);
+//
+//    // and we now set the drawing color to red, then add another rectangle
+//    // and draw to the screen
+//    CGContextSetFillColor(context, (CGFloat []) { 1, 1, 1, 1 });
+//    CGContextAddRect(context, (struct CGRect) { ((SCREEN_RECT.size.width * 0.5) - 10), 20, 20, 20 });
+//    CGContextFillPath(context);
 }
 
 id BigLabelView_init(id self, SEL _cmd)
@@ -54,7 +68,7 @@ id BigLabelView_init(id self, SEL _cmd)
     CGRect (*sendRectFn)(id receiver, SEL operation);
     sendRectFn = (CGRect(*)(id, SEL))objc_msgSend_stret;
     CGRect screenBounds = sendRectFn(screen, sel_getUid("bounds"));
-    CGFloat left = 10, top = 100;
+    CGFloat left = 10, top = 80;
     CGFloat width = screenBounds.size.width - (left * 2);
     CGFloat height = (screenBounds.size.width * 0.50) + top;
   
@@ -65,15 +79,39 @@ id BigLabelView_init(id self, SEL _cmd)
 
 id BigLabelView_loadText(id self, SEL _cmd, const char *string)
 {
+    _self = self;
     StringBuilder *sb = sb_create();
-    sb_appendf(sb, "Never have I ever %s.", string);
-  
+    sb_appendf(sb, "Never have I ever\n%s.", string);
+    
     id str_obj = objc_msgSend((id) objc_getClass("NSString"), sel_registerName("stringWithUTF8String:"), sb_concat(sb));
-    objc_msgSend(self, sel_getUid("setLabel:"), str_obj);
+    objc_msgSend(self, sel_getUid("setText:"), str_obj);
   
     sb_free(sb);
+    
+    objc_msgSend(self, sel_getUid("setTextColor:"), objc_msgSend((id)objc_getClass("UIColor"), sel_getUid("whiteColor")));
+    objc_msgSend(self, sel_getUid("setFont:"), objc_msgSend((id)objc_getClass("UIFont"), sel_getUid("systemFontOfSize:"), 34.0));
+    objc_msgSend(self, sel_getUid("setTextAlignment:"), 1);
+    objc_msgSend(self, sel_getUid("setNumberOfLines:"), 0);
   
     return self;
+}
+
+static void on_scroll_refresh(event_name_t event, const char *message, void *nothing)
+{
+    char *json = load_file(CFSTR("objs"), CFSTR("json"));
+    
+    JSON_Value *root_value = json_parse_string(json);
+    JSON_Array *array = json_value_get_array(root_value);
+    size_t count = json_array_get_count(array);
+    
+    srand((unsigned int)time(0));
+    size_t index = rand() % count;
+    
+    const char *string = json_array_get_string(array, index);
+    
+    BigLabelView_loadText(_self, sel_getUid("loadText:"), string);
+    
+    json_value_free(root_value);
 }
 
 // Once again we use the (constructor) attribute. generally speaking,
@@ -93,4 +131,6 @@ static void initView()
     class_addMethod(BigLabelViewClass, sel_getUid("loadText:"), (IMP) BigLabelView_loadText, "@@:*");
   
     objc_registerClassPair(BigLabelViewClass);
+    
+    eventbus_subscribe(scroll_refresh_event, (event_handler_t)on_scroll_refresh, (void *)0);
 }

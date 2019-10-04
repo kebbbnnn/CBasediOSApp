@@ -11,9 +11,14 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <CoreGraphics/CoreGraphics.h>
 #include "constants.h"
 #include "log.h"
+#include "eventbus.h"
+#include "Dumper.h"
+
+EVENTBUS_DEFINE_EVENT(scroll_refresh_event);
 
 Class ScrollViewClass;
 __unsafe_unretained Protocol *ScrollViewDelegate;
@@ -28,6 +33,16 @@ extern CGContextRef UIGraphicsGetCurrentContext();
 // stuck with the C-based mentality of the application.
 void ScrollView_drawRect(id self, SEL _cmd, CGRect rect)
 {
+    id const screen = objc_msgSend((id)objc_getClass("UIScreen"), sel_getUid("mainScreen"));
+    
+    //Get screen bounds
+    //Trick to return a struct from objc_msgSend_stret
+    //http://blog.lazerwalker.com/objective-c,/code/2013/10/12/the-objective-c-runtime-and-objc-msgsend-stret.html
+    
+    CGRect (*sendRectFn)(id receiver, SEL operation);
+    sendRectFn = (CGRect(*)(id, SEL))objc_msgSend_stret;
+    CGRect screenBounds = sendRectFn(screen, sel_getUid("bounds"));
+    
     // We are simply getting the graphics context of the current view,
     // so we can draw to it
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -39,10 +54,10 @@ void ScrollView_drawRect(id self, SEL _cmd, CGRect rect)
     // If this wasn't a demo application, I would strongly recommend against this,
     // but for the most part you can be pretty sure that this is a safe move
     // in an iOS application.
-    CGContextSetFillColor(context, (CGFloat []){ 1, 0, 0, 1 });
+    CGContextSetFillColor(context, (CGFloat []){ 0.2, 0.5, 0.9, 1 });
   
     // here, we simply add and draw the rect to the screen
-    CGContextAddRect(context, SCREEN_RECT);
+    CGContextAddRect(context, screenBounds);
     CGContextFillPath(context);
 }
 
@@ -58,8 +73,20 @@ void ScrollView_scrollViewDidScroll(id self, SEL _cmd, id scroll_view)
     if (fabs(y) <= 20 && met_negative_pull_down)
     {
         // refresh
+        eventbus_post(scroll_refresh_event, (void *)0);
         met_negative_pull_down = false;
     }
+}
+
+char* GenerateSetterName(char *keyName) {
+    unsigned long length = sizeof(char)*strlen(keyName);
+    unsigned long totalLength = length+0x4;
+    char *hasSet = calloc(0x1, totalLength);
+    memcpy(hasSet, "set", 0x3);
+    memcpy(&(hasSet[0x3]), keyName, length);
+    hasSet[0x3] = toupper(hasSet[0x3]);
+    memcpy(&(hasSet[totalLength-0x1]), ":", 0x1);
+    return hasSet;
 }
 
 void ScrollView_setupDelegate(id self, SEL _cmd)
@@ -68,6 +95,8 @@ void ScrollView_setupDelegate(id self, SEL _cmd)
     class_addProtocol(ScrollViewClass, ScrollViewDelegate);
     class_addMethod(ScrollViewClass, sel_registerName("scrollViewDidScroll:"), (IMP) ScrollView_scrollViewDidScroll, "v@:@");
     objc_msgSend(self, sel_getUid("setDelegate:"), self);
+    
+    debug("setter: %s", GenerateSetterName("bounces"));
 }
 
 // Once again we use the (constructor) attribute. generally speaking,
