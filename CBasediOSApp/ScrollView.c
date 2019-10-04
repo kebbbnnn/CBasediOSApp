@@ -18,6 +18,9 @@
 #include "eventbus.h"
 #include "Dumper.h"
 
+#define TOP_OFFSET 20
+#define MAINTAINED_OFFSET_Y 50
+
 EVENTBUS_DEFINE_EVENT(scroll_refresh_event);
 
 Class ScrollViewClass;
@@ -68,9 +71,9 @@ void ScrollView_scrollViewDidScroll(id self, SEL _cmd, id scroll_view)
     CGPoint contentOffset = *((CGPoint *)((uintptr_t)self + offset));
     CGFloat y = contentOffset.y;
     
-    if (y < -70){ met_negative_pull_down = true; }
+    if (y < -(MAINTAINED_OFFSET_Y + TOP_OFFSET)){ met_negative_pull_down = true; }
     
-    if (fabs(y) <= 20 && met_negative_pull_down)
+    if (fabs(y) <= TOP_OFFSET && met_negative_pull_down)
     {
         // refresh
         eventbus_post(scroll_refresh_event, (void *)0);
