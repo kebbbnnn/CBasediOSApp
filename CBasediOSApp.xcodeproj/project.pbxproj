@@ -16,7 +16,7 @@
 		FA39E56B2338F81A00FF2ACC /* sb.c in Sources */ = {isa = PBXBuildFile; fileRef = FA39E5692338F81A00FF2ACC /* sb.c */; };
 		FA39E56F233A5A6500FF2ACC /* parson.c in Sources */ = {isa = PBXBuildFile; fileRef = FA39E56E233A5A6500FF2ACC /* parson.c */; };
 		FA39E571233B879B00FF2ACC /* defer.h in Sources */ = {isa = PBXBuildFile; fileRef = FA39E570233B85B000FF2ACC /* defer.h */; settings = {COMPILER_FLAGS = "-fblocks -lBlocksRuntime"; }; };
-		FA93130D2335D8F200E85BAC /* BigLabelView.c in Sources */ = {isa = PBXBuildFile; fileRef = FA93130C2335D8F200E85BAC /* BigLabelView.c */; };
+		FA93130D2335D8F200E85BAC /* LabelView.c in Sources */ = {isa = PBXBuildFile; fileRef = FA93130C2335D8F200E85BAC /* LabelView.c */; };
 		FA9313182337651000E85BAC /* objs.json in Resources */ = {isa = PBXBuildFile; fileRef = FA9313172337651000E85BAC /* objs.json */; };
 		FA93131B2337ACFE00E85BAC /* read_data.c in Sources */ = {isa = PBXBuildFile; fileRef = FA93131A2337ACFE00E85BAC /* read_data.c */; };
 		FA9D58D02322CC9F0071B66C /* log.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9D58CF2322CC9F0071B66C /* log.m */; };
@@ -39,7 +39,7 @@
 		FA39E56D233A5A6500FF2ACC /* parson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parson.h; sourceTree = "<group>"; };
 		FA39E56E233A5A6500FF2ACC /* parson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parson.c; sourceTree = "<group>"; };
 		FA39E570233B85B000FF2ACC /* defer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = defer.h; sourceTree = "<group>"; };
-		FA93130C2335D8F200E85BAC /* BigLabelView.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = BigLabelView.c; sourceTree = "<group>"; };
+		FA93130C2335D8F200E85BAC /* LabelView.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = LabelView.c; sourceTree = "<group>"; };
 		FA9313172337651000E85BAC /* objs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = objs.json; sourceTree = "<group>"; };
 		FA9313192337ACD500E85BAC /* read_data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = read_data.h; sourceTree = "<group>"; };
 		FA93131A2337ACFE00E85BAC /* read_data.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = read_data.c; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 				23728E9E154622C600ED5A71 /* AppDelegate.c */,
 				23728EA61546269400ED5A71 /* View.c */,
 				FA9D58D42322EED60071B66C /* ScrollView.c */,
-				FA93130C2335D8F200E85BAC /* BigLabelView.c */,
+				FA93130C2335D8F200E85BAC /* LabelView.c */,
 				FA39E56C2339050400FF2ACC /* Libraries */,
 				FA9D58CE2322CC760071B66C /* Helpers */,
 				23728E95154622C600ED5A71 /* Supporting Files */,
@@ -216,7 +216,7 @@
 				23728E9B154622C600ED5A71 /* main.c in Sources */,
 				23728E9F154622C600ED5A71 /* AppDelegate.c in Sources */,
 				FA9D58D02322CC9F0071B66C /* log.m in Sources */,
-				FA93130D2335D8F200E85BAC /* BigLabelView.c in Sources */,
+				FA93130D2335D8F200E85BAC /* LabelView.c in Sources */,
 				FA39E56F233A5A6500FF2ACC /* parson.c in Sources */,
 				23728EA71546269400ED5A71 /* View.c in Sources */,
 				FA93131B2337ACFE00E85BAC /* read_data.c in Sources */,

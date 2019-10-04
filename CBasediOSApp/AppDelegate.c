@@ -65,8 +65,8 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
     Class ViewClass = objc_getClass("View");
     id view = objc_msgSend(class_createInstance(ViewClass, 0), sel_getUid("initWithFrame:"), screenBounds);
   
-    Class BigLabelViewClass = objc_getClass("BigLabelView");
-    id labelView = objc_msgSend(class_createInstance(BigLabelViewClass, 0), sel_getUid("init:"));
+    Class LabelViewClass = objc_getClass("LabelView");
+    id labelView = objc_msgSend(class_createInstance(LabelViewClass, 0), sel_getUid("init:"));
   
     char *json = load_file(CFSTR("objs"), CFSTR("json"));
     //debug("json: %s", json);

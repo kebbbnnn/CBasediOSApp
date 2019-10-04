@@ -1,5 +1,5 @@
 //
-//  BigLabelView.c
+//  LabelView.c
 //  CBasediOSApp
 //
 //  Created by Kevin Ladan on 21/9/19.
@@ -21,7 +21,7 @@
 
 EVENTBUS_DEFINE_EVENT(scroll_refresh_event);
 
-Class BigLabelViewClass;
+Class LabelViewClass;
 id _self;
 
 // Notice this. We must create this as an extern function, as we cannot include all
@@ -31,7 +31,7 @@ extern CGContextRef UIGraphicsGetCurrentContext();
 // This is a simple -drawRect implementation for our class. We could have
 // used a UILabel  or something of that sort instead, but I felt that this
 // stuck with the C-based mentality of the application.
-void BigLabelView_drawRect(id self, SEL _cmd, CGRect rect)
+void LabelView_drawRect(id self, SEL _cmd, CGRect rect)
 {
 //    // We are simply getting the graphics context of the current view,
 //    // so we can draw to it
@@ -57,7 +57,7 @@ void BigLabelView_drawRect(id self, SEL _cmd, CGRect rect)
 //    CGContextFillPath(context);
 }
 
-id BigLabelView_init(id self, SEL _cmd)
+id LabelView_init(id self, SEL _cmd)
 {
     id const screen = objc_msgSend((id)objc_getClass("UIScreen"), sel_getUid("mainScreen"));
   
@@ -77,7 +77,7 @@ id BigLabelView_init(id self, SEL _cmd)
     return self;
 }
 
-id BigLabelView_loadText(id self, SEL _cmd, const char *string)
+id LabelView_loadText(id self, SEL _cmd, const char *string)
 {
     _self = self;
     StringBuilder *sb = sb_create();
@@ -109,7 +109,7 @@ static void on_scroll_refresh(event_name_t event, const char *message, void *not
     
     const char *string = json_array_get_string(array, index);
     
-    BigLabelView_loadText(_self, sel_getUid("loadText:"), string);
+    LabelView_loadText(_self, sel_getUid("loadText:"), string);
     
     json_value_free(root_value);
 }
@@ -122,15 +122,15 @@ static void initView()
 {
     // Once again, just like the app delegate, we tell the runtime to
     // create a new class, this time a subclass of 'UIView' and named 'View'.
-    BigLabelViewClass = objc_allocateClassPair((Class) objc_getClass("UILabel"), "BigLabelView", 0);
+    LabelViewClass = objc_allocateClassPair((Class) objc_getClass("UILabel"), "LabelView", 0);
   
     // We tell the runtime to add a function called init: and loadText:
     // to our custom view.
     // https://developer.apple.com/documentation/objectivec/1418901-class_addmethod?language=objc
-    class_addMethod(BigLabelViewClass, sel_getUid("init:"), (IMP) BigLabelView_init, "@@:");
-    class_addMethod(BigLabelViewClass, sel_getUid("loadText:"), (IMP) BigLabelView_loadText, "@@:*");
+    class_addMethod(LabelViewClass, sel_getUid("init:"), (IMP) LabelView_init, "@@:");
+    class_addMethod(LabelViewClass, sel_getUid("loadText:"), (IMP) LabelView_loadText, "@@:*");
   
-    objc_registerClassPair(BigLabelViewClass);
+    objc_registerClassPair(LabelViewClass);
     
     eventbus_subscribe(scroll_refresh_event, (event_handler_t)on_scroll_refresh, (void *)0);
 }
