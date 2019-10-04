@@ -78,25 +78,17 @@ void ScrollView_scrollViewDidScroll(id self, SEL _cmd, id scroll_view)
     }
 }
 
-char* GenerateSetterName(char *keyName) {
-    unsigned long length = sizeof(char)*strlen(keyName);
-    unsigned long totalLength = length+0x4;
-    char *hasSet = calloc(0x1, totalLength);
-    memcpy(hasSet, "set", 0x3);
-    memcpy(&(hasSet[0x3]), keyName, length);
-    hasSet[0x3] = toupper(hasSet[0x3]);
-    memcpy(&(hasSet[totalLength-0x1]), ":", 0x1);
-    return hasSet;
-}
-
-void ScrollView_setupDelegate(id self, SEL _cmd)
+void ScrollView_init(id self, SEL _cmd)
 {
     ScrollViewDelegate = objc_getProtocol("UIScrollViewDelegate");
     class_addProtocol(ScrollViewClass, ScrollViewDelegate);
     class_addMethod(ScrollViewClass, sel_registerName("scrollViewDidScroll:"), (IMP) ScrollView_scrollViewDidScroll, "v@:@");
     objc_msgSend(self, sel_getUid("setDelegate:"), self);
     
-    debug("setter: %s", GenerateSetterName("bounces"));
+    objc_msgSend(self, sel_getUid("setAlwaysBounceVertical:"), YES);
+    objc_msgSend(self, sel_getUid("setBounces:"), YES);
+    
+    //dump_methods(class_getName(class_getSuperclass(ScrollViewClass)));
 }
 
 // Once again we use the (constructor) attribute. generally speaking,
@@ -110,7 +102,7 @@ static void initView()
     ScrollViewClass = objc_allocateClassPair((Class) objc_getClass("UIScrollView"), "ScrollView", 0);
   
     class_addMethod(ScrollViewClass, sel_getUid("drawRect:"), (IMP) ScrollView_drawRect, VIEW_ARGS_ENC);
-    class_addMethod(ScrollViewClass, sel_getUid("setupDelegate:"), (IMP) ScrollView_setupDelegate, "v@:");
+    class_addMethod(ScrollViewClass, sel_getUid("init:"), (IMP) ScrollView_init, "v@:");
   
   
     // And again, we tell the runtime that this class is now valid to be used.

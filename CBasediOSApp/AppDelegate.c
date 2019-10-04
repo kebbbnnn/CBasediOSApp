@@ -55,8 +55,7 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
   
     Class ScrollViewClass = objc_getClass("ScrollView");
     id scrollView = objc_msgSend(class_createInstance(ScrollViewClass, 0), sel_getUid("initWithFrame:"), screenBounds);
-    objc_msgSend(scrollView, sel_getUid("enableBounce:"), TRUE);
-    objc_msgSend(scrollView, sel_getUid("setupDelegate:"), NULL);
+    objc_msgSend(scrollView, sel_getUid("init:"), NULL);
   
     // creating our custom view class, there really isn't too much 
     // to say here other than we are hard-coding the screen's bounds, 
