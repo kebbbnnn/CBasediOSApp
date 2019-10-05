@@ -84,7 +84,9 @@ id LabelView_loadText(id self, SEL _cmd, const char *string)
     StringBuilder *sb = sb_create();
     sb_appendf(sb, "Never have I ever\n%s.", string);
     
-    id strObj = objc_msgSend((id) objc_getClass("NSString"), sel_registerName("stringWithUTF8String:"), sb_concat(sb));
+    const char *str = sb_concat(sb);
+    
+    id strObj = objc_msgSend((id) objc_getClass("NSString"), sel_registerName("stringWithUTF8String:"), str);
     //objc_msgSend(self, sel_getUid("setText:"), strObj);
     
     objc_msgSend(self, sel_getUid("setTextColor:"), objc_msgSend((id)objc_getClass("UIColor"), sel_getUid("whiteColor")));
@@ -95,6 +97,7 @@ id LabelView_loadText(id self, SEL _cmd, const char *string)
     
     objc_msgSend(self, sel_getUid("highlight:"), strObj);
     
+    free((void*)str);
     sb_free(sb);
     
     return self;
