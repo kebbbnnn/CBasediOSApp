@@ -1,0 +1,1 @@
+infer run --reactive -- xcodebuild -target CBasediOSApp -configuration Debug -sdk iphonesimulator
