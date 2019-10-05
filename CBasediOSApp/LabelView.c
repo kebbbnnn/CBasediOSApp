@@ -18,6 +18,7 @@
 #include "log.h"
 #include "parson.h"
 #include "read_data.h"
+#include "Dumper.h"
 
 EVENTBUS_DEFINE_EVENT(scroll_refresh_event);
 
@@ -73,7 +74,7 @@ id LabelView_init(id self, SEL _cmd)
     CGFloat height = (screenBounds.size.width * 0.50) + top;
   
     objc_msgSend(self, sel_getUid("initWithFrame:"), (struct CGRect) { left, top, width, height });
-  
+    //dump_methods(class_getName(class_getSuperclass(LabelViewClass)));
     return self;
 }
 
@@ -83,16 +84,19 @@ id LabelView_loadText(id self, SEL _cmd, const char *string)
     StringBuilder *sb = sb_create();
     sb_appendf(sb, "Never have I ever\n%s.", string);
     
-    id str_obj = objc_msgSend((id) objc_getClass("NSString"), sel_registerName("stringWithUTF8String:"), sb_concat(sb));
-    objc_msgSend(self, sel_getUid("setText:"), str_obj);
-  
-    sb_free(sb);
+    id strObj = objc_msgSend((id) objc_getClass("NSString"), sel_registerName("stringWithUTF8String:"), sb_concat(sb));
+    //objc_msgSend(self, sel_getUid("setText:"), strObj);
     
     objc_msgSend(self, sel_getUid("setTextColor:"), objc_msgSend((id)objc_getClass("UIColor"), sel_getUid("whiteColor")));
     objc_msgSend(self, sel_getUid("setFont:"), objc_msgSend((id)objc_getClass("UIFont"), sel_getUid("systemFontOfSize:"), 34.0));
     objc_msgSend(self, sel_getUid("setTextAlignment:"), 1);
+    objc_msgSend(self, sel_getUid("setLineBreakMode:"), 0);
     objc_msgSend(self, sel_getUid("setNumberOfLines:"), 0);
-  
+    
+    objc_msgSend(self, sel_getUid("highlight:"), strObj);
+    
+    sb_free(sb);
+    
     return self;
 }
 

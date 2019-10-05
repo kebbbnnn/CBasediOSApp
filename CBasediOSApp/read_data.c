@@ -27,7 +27,7 @@ char * CFStringCopyUTF8String(CFStringRef aString) {
                          kCFStringEncodingUTF8)) {
     return buffer;
   }
-  return NULL;
+  return buffer;
 }
 
 FILE *data_file_pointer(CFStringRef fileName, CFStringRef fileExtension)
