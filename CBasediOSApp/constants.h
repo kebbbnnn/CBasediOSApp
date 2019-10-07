@@ -14,9 +14,9 @@
 //#define RGBA(r, g, b, a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 
 #ifdef __IPHONE_6_0
-# define ALIGN_CENTER NSTextAlignmentCenter
+#define ALIGN_CENTER NSTextAlignmentCenter
 #else
-# define ALIGN_CENTER UITextAlignmentCenter
+#define ALIGN_CENTER UITextAlignmentCenter
 #endif
 
 #endif /* constants_h */

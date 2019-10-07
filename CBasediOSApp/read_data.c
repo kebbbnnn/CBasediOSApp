@@ -70,13 +70,25 @@ char* load_file(CFStringRef fileName, CFStringRef fileExtension)
     char *content = (char *)malloc(MAX_FILE_SIZE * sizeof(char));
     
     StringBuilder *sb = sb_create();
+      
+    if (sb == NULL)
+    {
+        free(content);
+        fclose(dataFilePointer);
+        return NULL;
+    }
+      
     char *result = NULL;
-    
+      
     if( content == NULL )
     {
-      printf("ERROR | unable to alloc memory for file content\n");
-      return NULL;
+        free(content);
+        fclose(dataFilePointer);
+        sb_free(sb);
+        printf("ERROR | unable to alloc memory for file content\n");
+        return NULL;
     }
+      
     while( fgets(content, MAX_FILE_SIZE, dataFilePointer) ) {
       //printf("%s\n",content);
       sb_append(sb, content);
@@ -84,15 +96,14 @@ char* load_file(CFStringRef fileName, CFStringRef fileExtension)
 
     result = sb_concat(sb);
     
-    defer {
-      free(content);
-      sb_free(sb);
-      fclose(dataFilePointer);
-    };
+    free(content);
+    fclose(dataFilePointer);
+    sb_free(sb);
     
     return result;
   }
   else {
-    printf("ERROR | unable to get valid file pointer\n");
+      printf("ERROR | unable to get valid file pointer\n");
+      return NULL;
   }
 }

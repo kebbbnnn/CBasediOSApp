@@ -19,6 +19,7 @@
 #include "parson.h"
 #include "read_data.h"
 #include "Dumper.h"
+#include "shared.h"
 
 EVENTBUS_DEFINE_EVENT(scroll_refresh_event);
 
@@ -60,15 +61,7 @@ void LabelView_drawRect(id self, SEL _cmd, CGRect rect)
 
 id LabelView_init(id self, SEL _cmd)
 {
-    id const screen = objc_msgSend((id)objc_getClass("UIScreen"), sel_getUid("mainScreen"));
-  
-    //Get screen bounds
-    //Trick to return a struct from objc_msgSend_stret
-    //http://blog.lazerwalker.com/objective-c,/code/2013/10/12/the-objective-c-runtime-and-objc-msgsend-stret.html
-  
-    CGRect (*sendRectFn)(id receiver, SEL operation);
-    sendRectFn = (CGRect(*)(id, SEL))objc_msgSend_stret;
-    CGRect screenBounds = sendRectFn(screen, sel_getUid("bounds"));
+    CGRect screenBounds = SCREEN_BOUNDS;
     CGFloat left = 10, top = 80;
     CGFloat width = screenBounds.size.width - (left * 2);
     CGFloat height = (screenBounds.size.width * 0.50) + top;
@@ -82,9 +75,14 @@ id LabelView_loadText(id self, SEL _cmd, const char *string)
 {
     _self = self;
     StringBuilder *sb = sb_create();
+    
+    if (sb == NULL){ return self; }
+    
+    char *str = NULL;
+    
     sb_appendf(sb, "Never have I ever\n%s.", string);
     
-    const char *str = sb_concat(sb);
+    str = sb_concat(sb);
     
     id strObj = objc_msgSend((id) objc_getClass("NSString"), sel_registerName("stringWithUTF8String:"), str);
     //objc_msgSend(self, sel_getUid("setText:"), strObj);
@@ -97,7 +95,7 @@ id LabelView_loadText(id self, SEL _cmd, const char *string)
     
     objc_msgSend(self, sel_getUid("highlight:"), strObj);
     
-    free((void*)str);
+    free(str);
     sb_free(sb);
     
     return self;

@@ -14,6 +14,7 @@
 #include "log.h"
 #include "parson.h"
 #include "defer.h"
+#include "shared.h"
 
 // This is equivalent to creating a @class with one public variable named 'window'.
 struct AppDel
@@ -31,16 +32,8 @@ Class AppDelClass;
 // note the fact that we use `void *` for the 'application' and 'options' fields, as we need no reference to them for this to work. A generic id would suffice here as well.
 BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application, void *options)
 {
-    id const screen = objc_msgSend((id)objc_getClass("UIScreen"), sel_getUid("mainScreen"));
-    
-    //Get screen bounds
-    //Trick to return a struct from objc_msgSend_stret
-    //http://blog.lazerwalker.com/objective-c,/code/2013/10/12/the-objective-c-runtime-and-objc-msgsend-stret.html
-    
-    CGRect (*sendRectFn)(id receiver, SEL operation);
-    sendRectFn = (CGRect(*)(id, SEL))objc_msgSend_stret;
-    CGRect screenBounds = sendRectFn(screen, sel_getUid("bounds"));
-    
+    CGRect screenBounds = SCREEN_BOUNDS;
+
     // we +alloc and -initWithFrame: our window here, so that we can have it show on screen (eventually).
     // this entire method is the objc-runtime based version of the standard View-Based application's launch code, so nothing here really should surprise you.
     // one thing important to note, though is that we use `sel_getUid()` instead of @selector().

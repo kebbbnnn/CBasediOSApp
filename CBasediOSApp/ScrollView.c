@@ -17,6 +17,7 @@
 #include "log.h"
 #include "eventbus.h"
 #include "Dumper.h"
+#include "shared.h"
 
 #define TOP_OFFSET 20
 #define MAINTAINED_OFFSET_Y 50
@@ -36,15 +37,7 @@ extern CGContextRef UIGraphicsGetCurrentContext();
 // stuck with the C-based mentality of the application.
 void ScrollView_drawRect(id self, SEL _cmd, CGRect rect)
 {
-    id const screen = objc_msgSend((id)objc_getClass("UIScreen"), sel_getUid("mainScreen"));
-    
-    //Get screen bounds
-    //Trick to return a struct from objc_msgSend_stret
-    //http://blog.lazerwalker.com/objective-c,/code/2013/10/12/the-objective-c-runtime-and-objc-msgsend-stret.html
-    
-    CGRect (*sendRectFn)(id receiver, SEL operation);
-    sendRectFn = (CGRect(*)(id, SEL))objc_msgSend_stret;
-    CGRect screenBounds = sendRectFn(screen, sel_getUid("bounds"));
+    CGRect screenBounds = SCREEN_BOUNDS;
     
     // We are simply getting the graphics context of the current view,
     // so we can draw to it
