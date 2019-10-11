@@ -105,9 +105,10 @@ void ScrollView_scrollViewDidScroll(id self, SEL _cmd, id scroll_view)
 
 void ScrollView_refresh(id self, SEL _cmd)
 {
-    eventbus_post(scroll_refresh_event, (void *)0);
-    
-    objc_msgSend(RefreshControl, sel_getUid("endRefreshing"));
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        eventbus_post(scroll_refresh_event, (void *)0);
+        objc_msgSend(RefreshControl, sel_getUid("endRefreshing"));
+    });
 }
 
 void ScrollView_init(id self, SEL _cmd)
