@@ -71,11 +71,13 @@ void ScrollView_drawRect(id self, SEL _cmd, CGRect rect)
     CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace, components, locations, 2);
     
     CGFloat degree = 45 * M_PI / 180;
+    CGFloat width = SCREEN_BOUNDS.size.width;
+    CGFloat height = SCREEN_BOUNDS.size.height;
     
-    CGPoint center = CGPointMake(SCREEN_BOUNDS.size.width/2, SCREEN_BOUNDS.size.height/2);
+    CGPoint center = CGPointMake(width / 2, height / 2);
     
-    CGPoint pointStart = CGPointMake(center.x - cos(degree) * SCREEN_BOUNDS.size.width/2, center.y - sin(degree) * SCREEN_BOUNDS.size.height/2);
-    CGPoint pointEnd = CGPointMake(center.x + cos (degree) * SCREEN_BOUNDS.size.width/2, center.y + sin(degree) * SCREEN_BOUNDS.size.height/2);
+    CGPoint pointStart = CGPointMake(center.x - cos(degree) * width / 2, center.y - sin(degree) * height / 2);
+    CGPoint pointEnd = CGPointMake(center.x + cos (degree) * width / 2, center.y + sin(degree) * height / 2);
     
     CGGradientDrawingOptions options = kCGGradientDrawsBeforeStartLocation|kCGGradientDrawsAfterEndLocation;
    
