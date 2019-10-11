@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <CoreGraphics/CoreGraphics.h>
+#include <dispatch/dispatch.h>
 #include "constants.h"
 #include "log.h"
 #include "eventbus.h"
@@ -38,7 +39,7 @@ extern CGContextRef UIGraphicsGetCurrentContext();
 // stuck with the C-based mentality of the application.
 void ScrollView_drawRect(id self, SEL _cmd, CGRect rect)
 {
-    CGRect screenBounds = SCREEN_BOUNDS;
+    //CGRect screenBounds = SCREEN_BOUNDS;
     
     // We are simply getting the graphics context of the current view,
     // so we can draw to it
@@ -51,11 +52,36 @@ void ScrollView_drawRect(id self, SEL _cmd, CGRect rect)
     // If this wasn't a demo application, I would strongly recommend against this,
     // but for the most part you can be pretty sure that this is a safe move
     // in an iOS application.
-    CGContextSetFillColor(context, (CGFloat []){ 0.2, 0.5, 0.9, 1 });
+    //CGContextSetFillColor(context, (CGFloat []){ 0.2, 0.5, 0.9, 1 });
   
     // here, we simply add and draw the rect to the screen
-    CGContextAddRect(context, screenBounds);
-    CGContextFillPath(context);
+    //CGContextAddRect(context, screenBounds);
+    //CGContextFillPath(context);
+    CGContextSaveGState(context);
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    CGFloat colorStart[] = { 0.8, 0.0, 0.07, 1.0 };
+    CGFloat colorEnd[] = { 1.0, 0.5, 0.18, 1.0 };
+    
+    CGFloat components[] = { colorStart[0], colorStart[1], colorStart[2], colorStart[3], colorEnd[0], colorEnd[1], colorEnd[2], colorEnd[3] };
+    
+    CGFloat locations[] = { 0.0, 1.0 };
+    
+    CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace, components, locations, 2);
+    
+    CGFloat degree = 45 * M_PI / 180;
+    
+    CGPoint center = CGPointMake(SCREEN_BOUNDS.size.width/2, SCREEN_BOUNDS.size.height/2);
+    
+    CGPoint pointStart = CGPointMake(center.x - cos(degree) * SCREEN_BOUNDS.size.width/2, center.y - sin(degree) * SCREEN_BOUNDS.size.height/2);
+    CGPoint pointEnd = CGPointMake(center.x + cos (degree) * SCREEN_BOUNDS.size.width/2, center.y + sin(degree) * SCREEN_BOUNDS.size.height/2);
+    
+    CGGradientDrawingOptions options = kCGGradientDrawsBeforeStartLocation|kCGGradientDrawsAfterEndLocation;
+   
+    CGContextDrawLinearGradient(context, gradient, pointStart, pointEnd, options);
+    
+    CGContextRestoreGState(context);
 }
 
 /**
@@ -104,7 +130,7 @@ void ScrollView_init(id self, SEL _cmd)
     
     objc_msgSend(self, sel_getUid("setRefreshControl:"), RefreshControl);
     
-    dump_methods(class_getName(object_getClass(RefreshControl)));
+    //dump_methods(class_getName(object_getClass(RefreshControl)));
 }
 
 // Once again we use the (constructor) attribute. generally speaking,
