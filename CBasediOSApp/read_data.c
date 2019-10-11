@@ -64,7 +64,7 @@ FILE *data_file_pointer(CFStringRef fileName, CFStringRef fileExtension)
 
 char* load_file(CFStringRef fileName, CFStringRef fileExtension)
 {
-  FILE *dataFilePointer = data_file_pointer(CFSTR("objs"), CFSTR("json"));
+  FILE *dataFilePointer = data_file_pointer(fileName, fileExtension);
   if( dataFilePointer != NULL )
   {
     char *content = (char *)malloc(MAX_FILE_SIZE * sizeof(char));

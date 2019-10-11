@@ -26,6 +26,7 @@ EVENTBUS_DEFINE_EVENT(scroll_refresh_event);
 
 Class ScrollViewClass;
 __unsafe_unretained Protocol *ScrollViewDelegate;
+id RefreshControl;
 bool met_negative_pull_down;
 
 // Notice this. We must create this as an extern function, as we cannot include all
@@ -57,15 +58,16 @@ void ScrollView_drawRect(id self, SEL _cmd, CGRect rect)
     CGContextFillPath(context);
 }
 
+/**
 void ScrollView_scrollViewDidScroll(id self, SEL _cmd, id scroll_view)
 {
     Ivar ivar = class_getInstanceVariable(ScrollViewClass, "_lastSetContentOffsetUnrounded");
     ptrdiff_t offset = ivar_getOffset(ivar);
     CGPoint contentOffset = *((CGPoint *)((uintptr_t)self + offset));
     CGFloat y = contentOffset.y;
-    
+
     if (y < -(MAINTAINED_OFFSET_Y + TOP_OFFSET)){ met_negative_pull_down = true; }
-    
+
     if (fabs(y) <= TOP_OFFSET && met_negative_pull_down)
     {
         // refresh
@@ -73,18 +75,36 @@ void ScrollView_scrollViewDidScroll(id self, SEL _cmd, id scroll_view)
         met_negative_pull_down = false;
     }
 }
+ **/
+
+void ScrollView_refresh(id self, SEL _cmd)
+{
+    eventbus_post(scroll_refresh_event, (void *)0);
+    
+    objc_msgSend(RefreshControl, sel_getUid("endRefreshing"));
+}
 
 void ScrollView_init(id self, SEL _cmd)
 {
+    /**
     ScrollViewDelegate = objc_getProtocol("UIScrollViewDelegate");
     class_addProtocol(ScrollViewClass, ScrollViewDelegate);
     class_addMethod(ScrollViewClass, sel_registerName("scrollViewDidScroll:"), (IMP) ScrollView_scrollViewDidScroll, "v@:@");
     objc_msgSend(self, sel_getUid("setDelegate:"), self);
+     **/
     
     objc_msgSend(self, sel_getUid("setAlwaysBounceVertical:"), YES);
     objc_msgSend(self, sel_getUid("setBounces:"), YES);
     
-    //dump_methods(class_getName(class_getSuperclass(ScrollViewClass)));
+    
+    RefreshControl = objc_msgSend(class_createInstance(objc_getClass("UIRefreshControl"), 0), sel_getUid("init"));
+    objc_msgSend(RefreshControl, sel_getUid("addTarget:action:forControlEvents:"), self, sel_getUid("refresh:"), (1 << 12));
+    id const tintColor = objc_msgSend((id)objc_getClass("UIColor"), sel_getUid("colorWithWhite:alpha:"), 1.0, 0.6);
+    objc_msgSend(RefreshControl, sel_getUid("setTintColor:"), tintColor);
+    
+    objc_msgSend(self, sel_getUid("setRefreshControl:"), RefreshControl);
+    
+    dump_methods(class_getName(object_getClass(RefreshControl)));
 }
 
 // Once again we use the (constructor) attribute. generally speaking,
@@ -99,7 +119,7 @@ static void initView()
   
     class_addMethod(ScrollViewClass, sel_getUid("drawRect:"), (IMP) ScrollView_drawRect, VIEW_ARGS_ENC);
     class_addMethod(ScrollViewClass, sel_getUid("init:"), (IMP) ScrollView_init, "v@:");
-  
+    class_addMethod(ScrollViewClass, sel_getUid("refresh:"), (IMP) ScrollView_refresh, "v@:");
   
     // And again, we tell the runtime that this class is now valid to be used.
     // At this point, the application should run and display the screenshot shown below.
