@@ -65,12 +65,11 @@ void RoundButton_drawRect(id self, SEL _cmd, CGRect rect)
 void RoundButton_onTapped(id self, SEL _cmd)
 {
     id const UIButton = (id)objc_getClass("UIButton");
-    double duration = 0.2;
     
-    objc_msgSend(UIButton, sel_getUid("animateWithDuration:animations:completion:"), duration, ^{
+    objc_msgSend(UIButton, sel_getUid("animateWithDuration:animations:completion:"), 0.1, ^{
         objc_msgSend(self, sel_getUid("setTransform:"), CGAffineTransformMakeScale(0.95, 0.94));
     }, ^{
-        objc_msgSend(UIButton, sel_getUid("animateWithDuration:animations:"), duration, ^{
+        objc_msgSend(UIButton, sel_getUid("animateWithDuration:animations:"), 0.2, ^{
             objc_msgSend(self, sel_getUid("setTransform:"), CGAffineTransformIdentity);
         });
     });
