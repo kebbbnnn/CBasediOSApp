@@ -32,23 +32,21 @@ Class AppDelClass;
 // note the fact that we use `void *` for the 'application' and 'options' fields, as we need no reference to them for this to work. A generic id would suffice here as well.
 BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application, void *options)
 {
-    CGRect screenBounds = SCREEN_BOUNDS;
-
     // we +alloc and -initWithFrame: our window here, so that we can have it show on screen (eventually).
     // this entire method is the objc-runtime based version of the standard View-Based application's launch code, so nothing here really should surprise you.
     // one thing important to note, though is that we use `sel_getUid()` instead of @selector().
     // this is because @selector is an objc language construct, and the application would not have been created in C if I used @selector.
     Class UIWindowClass = objc_getClass("UIWindow");
     self->window = class_createInstance(UIWindowClass, 0);
-    self->window = objc_msgSend(self->window, sel_getUid("initWithFrame:"), screenBounds);
+    self->window = objc_msgSend(self->window, sel_getUid("initWithFrame:"), SCREEN_BOUNDS);
     
     // here, we are creating our view controller, and our view. note the use of objc_getClass, because we cannot reference UIViewController directly in C.
     Class UIViewControllerClass = objc_getClass("UIViewController");
     id viewController = objc_msgSend(class_createInstance(UIViewControllerClass, 0), sel_getUid("init"));
   
     Class ScrollViewClass = objc_getClass("ScrollView");
-    id scrollView = objc_msgSend(class_createInstance(ScrollViewClass, 0), sel_getUid("initWithFrame:"), screenBounds);
-    objc_msgSend(scrollView, sel_getUid("init:"), NULL);
+    id scrollView = objc_msgSend(class_createInstance(ScrollViewClass, 0), sel_getUid("initWithFrame:"), SCREEN_BOUNDS);
+    objc_msgSend(scrollView, sel_getUid("init:"));
   
     // creating our custom view class, there really isn't too much 
     // to say here other than we are hard-coding the screen's bounds, 
@@ -56,7 +54,7 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
     // [[UIScreen mainScreen] bounds]) requires a different function call
     // and is finicky at best.
     Class ViewClass = objc_getClass("View");
-    id view = objc_msgSend(class_createInstance(ViewClass, 0), sel_getUid("initWithFrame:"), screenBounds);
+    id view = objc_msgSend(class_createInstance(ViewClass, 0), sel_getUid("initWithFrame:"), SCREEN_BOUNDS);
   
     Class LabelViewClass = objc_getClass("LabelView");
     id labelView = objc_msgSend(class_createInstance(LabelViewClass, 0), sel_getUid("init:"));
@@ -82,6 +80,12 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
     objc_msgSend(scrollView, sel_getUid("addSubview:"), view);
   
     objc_msgSend(objc_msgSend(viewController, sel_getUid("view")), sel_getUid("addSubview:"), scrollView);
+    
+    Class RoundButtonClass = objc_getClass("RoundButton");
+    id roundButton = objc_msgSend(class_createInstance(RoundButtonClass, 0), sel_getUid("init"));
+    objc_msgSend(roundButton, sel_getUid("init:"));
+    objc_msgSend(objc_msgSend(viewController, sel_getUid("view")), sel_getUid("addSubview:"), roundButton);
+    
     objc_msgSend(self->window, sel_getUid("setRootViewController:"), viewController);
     
     // finally, we display the window on-screen.

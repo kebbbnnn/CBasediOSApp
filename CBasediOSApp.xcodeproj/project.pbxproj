@@ -22,6 +22,7 @@
 		FA93131B2337ACFE00E85BAC /* read_data.c in Sources */ = {isa = PBXBuildFile; fileRef = FA93131A2337ACFE00E85BAC /* read_data.c */; };
 		FA9D58D02322CC9F0071B66C /* log.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9D58CF2322CC9F0071B66C /* log.m */; };
 		FA9D58D52322EED60071B66C /* ScrollView.c in Sources */ = {isa = PBXBuildFile; fileRef = FA9D58D42322EED60071B66C /* ScrollView.c */; };
+		FAAC57942350EE0800924DDC /* RoundButton.c in Sources */ = {isa = PBXBuildFile; fileRef = FAAC57932350EE0800924DDC /* RoundButton.c */; };
 		FAB22877234A370E00717F7B /* shared.c in Sources */ = {isa = PBXBuildFile; fileRef = FAB22876234A370E00717F7B /* shared.c */; };
 		FACFD3E023449EA5009D0293 /* Dumper.c in Sources */ = {isa = PBXBuildFile; fileRef = FACFD3DF23449EA5009D0293 /* Dumper.c */; };
 		FACFD3E32344C966009D0293 /* eventbus.c in Sources */ = {isa = PBXBuildFile; fileRef = FACFD3E22344C966009D0293 /* eventbus.c */; };
@@ -51,6 +52,7 @@
 		FA9D58D12322CCC30071B66C /* log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
 		FA9D58D22322DA2A0071B66C /* constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = constants.h; sourceTree = "<group>"; };
 		FA9D58D42322EED60071B66C /* ScrollView.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ScrollView.c; sourceTree = "<group>"; };
+		FAAC57932350EE0800924DDC /* RoundButton.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = RoundButton.c; sourceTree = "<group>"; };
 		FAB22875234A36FF00717F7B /* shared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shared.h; sourceTree = "<group>"; };
 		FAB22876234A370E00717F7B /* shared.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = shared.c; sourceTree = "<group>"; };
 		FACFD3DE23449E82009D0293 /* Dumper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dumper.h; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				23728EA61546269400ED5A71 /* View.c */,
 				FA9D58D42322EED60071B66C /* ScrollView.c */,
 				FA93130C2335D8F200E85BAC /* LabelView.c */,
+				FAAC57932350EE0800924DDC /* RoundButton.c */,
 				FA74AEF42347B33500254793 /* Extensions */,
 				FA39E56C2339050400FF2ACC /* Libraries */,
 				FA9D58CE2322CC760071B66C /* Helpers */,
@@ -233,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FACFD3E023449EA5009D0293 /* Dumper.c in Sources */,
+				FAAC57942350EE0800924DDC /* RoundButton.c in Sources */,
 				FA39E571233B879B00FF2ACC /* defer.h in Sources */,
 				FA39E56B2338F81A00FF2ACC /* sb.c in Sources */,
 				FACFD3E32344C966009D0293 /* eventbus.c in Sources */,
@@ -271,7 +275,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -289,7 +293,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -307,7 +311,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				INFOPLIST_FILE = "CBasediOSApp/CBasediOSApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MACH_O_TYPE = mh_execute;
 				PRODUCT_BUNDLE_IDENTIFIER = org.ultimatecomputerservicesinc.CBasediOSApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -325,7 +329,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				INFOPLIST_FILE = "CBasediOSApp/CBasediOSApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MACH_O_TYPE = mh_execute;
 				PRODUCT_BUNDLE_IDENTIFIER = org.ultimatecomputerservicesinc.CBasediOSApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -18,7 +18,7 @@
     
     // Apply background color
     [attribString addAttribute:NSBackgroundColorAttributeName
-                               value:[UIColor colorWithWhite:0 alpha:0.25]
+                               value:[UIColor colorWithWhite:1 alpha:0.25]
                                range:NSMakeRange(0, attribString.length)];
     
     // Set text of label
