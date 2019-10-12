@@ -84,6 +84,9 @@ void ScrollView_drawRect(id self, SEL _cmd, CGRect rect)
     CGContextDrawLinearGradient(context, gradient, pointStart, pointEnd, options);
     
     CGContextRestoreGState(context);
+    
+    CGGradientRelease(gradient);
+    CGColorSpaceRelease(colorSpace);
 }
 
 /**
