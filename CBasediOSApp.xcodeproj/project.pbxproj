@@ -27,6 +27,7 @@
 		FACFD3E023449EA5009D0293 /* Dumper.c in Sources */ = {isa = PBXBuildFile; fileRef = FACFD3DF23449EA5009D0293 /* Dumper.c */; };
 		FACFD3E32344C966009D0293 /* eventbus.c in Sources */ = {isa = PBXBuildFile; fileRef = FACFD3E22344C966009D0293 /* eventbus.c */; };
 		FAE49A8223536C0C00734815 /* MainViewController.c in Sources */ = {isa = PBXBuildFile; fileRef = FAE49A8123536C0C00734815 /* MainViewController.c */; };
+		FAE49A842353794500734815 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE49A832353794500734815 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		FACFD3E12344C92C009D0293 /* eventbus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = eventbus.h; sourceTree = "<group>"; };
 		FACFD3E22344C966009D0293 /* eventbus.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = eventbus.c; sourceTree = "<group>"; };
 		FAE49A8123536C0C00734815 /* MainViewController.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MainViewController.c; sourceTree = "<group>"; };
+		FAE49A832353794500734815 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 				FA39E56C2339050400FF2ACC /* Libraries */,
 				FA9D58CE2322CC760071B66C /* Helpers */,
 				23728E95154622C600ED5A71 /* Supporting Files */,
+				FAE49A832353794500734815 /* Launch Screen.storyboard */,
 			);
 			path = CBasediOSApp;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAE49A842353794500734815 /* Launch Screen.storyboard in Resources */,
 				FA9313182337651000E85BAC /* objs.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
