@@ -26,6 +26,7 @@
 		FAB22877234A370E00717F7B /* shared.c in Sources */ = {isa = PBXBuildFile; fileRef = FAB22876234A370E00717F7B /* shared.c */; };
 		FACFD3E023449EA5009D0293 /* Dumper.c in Sources */ = {isa = PBXBuildFile; fileRef = FACFD3DF23449EA5009D0293 /* Dumper.c */; };
 		FACFD3E32344C966009D0293 /* eventbus.c in Sources */ = {isa = PBXBuildFile; fileRef = FACFD3E22344C966009D0293 /* eventbus.c */; };
+		FAE49A8223536C0C00734815 /* MainViewController.c in Sources */ = {isa = PBXBuildFile; fileRef = FAE49A8123536C0C00734815 /* MainViewController.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +60,7 @@
 		FACFD3DF23449EA5009D0293 /* Dumper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Dumper.c; sourceTree = "<group>"; };
 		FACFD3E12344C92C009D0293 /* eventbus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = eventbus.h; sourceTree = "<group>"; };
 		FACFD3E22344C966009D0293 /* eventbus.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = eventbus.c; sourceTree = "<group>"; };
+		FAE49A8123536C0C00734815 /* MainViewController.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MainViewController.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				FA9D58D42322EED60071B66C /* ScrollView.c */,
 				FA93130C2335D8F200E85BAC /* LabelView.c */,
 				FAAC57932350EE0800924DDC /* RoundButton.c */,
+				FAE49A8123536C0C00734815 /* MainViewController.c */,
 				FA74AEF42347B33500254793 /* Extensions */,
 				FA39E56C2339050400FF2ACC /* Libraries */,
 				FA9D58CE2322CC760071B66C /* Helpers */,
@@ -244,6 +247,7 @@
 				23728E9F154622C600ED5A71 /* AppDelegate.c in Sources */,
 				FA9D58D02322CC9F0071B66C /* log.m in Sources */,
 				FA93130D2335D8F200E85BAC /* LabelView.c in Sources */,
+				FAE49A8223536C0C00734815 /* MainViewController.c in Sources */,
 				FAB22877234A370E00717F7B /* shared.c in Sources */,
 				FA74AEF72347B37300254793 /* UILabel+Extension.m in Sources */,
 				FA39E56F233A5A6500FF2ACC /* parson.c in Sources */,
