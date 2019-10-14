@@ -21,7 +21,7 @@
 #include "Dumper.h"
 #include "shared.h"
 
-EVENTBUS_DEFINE_EVENT(scroll_refresh_event);
+//EVENTBUS_DEFINE_EVENT(scroll_refresh_event);
 
 Class LabelViewClass;
 id _self;
@@ -35,28 +35,7 @@ extern CGContextRef UIGraphicsGetCurrentContext();
 // stuck with the C-based mentality of the application.
 void LabelView_drawRect(id self, SEL _cmd, CGRect rect)
 {
-//    // We are simply getting the graphics context of the current view,
-//    // so we can draw to it
-//    CGContextRef context = UIGraphicsGetCurrentContext();
-//
-//    // Then we set it's fill color to white so that we clear the background.
-//    // Note the cast to (CGFloat []). Otherwise, this would give a warning
-//    //  saying "invalid cast from type 'int' to 'CGFloat *', or
-//    // 'extra elements in initializer'. Also note the assumption of RGBA.
-//    // If this wasn't a demo application, I would strongly recommend against this,
-//    // but for the most part you can be pretty sure that this is a safe move
-//    // in an iOS application.
-//    CGContextSetFillColor(context, (CGFloat []){ 1, 1, 1, 1 });
-//
-//    // here, we simply add and draw the rect to the screen
-//    CGContextAddRect(context, SCREEN_RECT);
-//    CGContextFillPath(context);
-//
-//    // and we now set the drawing color to red, then add another rectangle
-//    // and draw to the screen
-//    CGContextSetFillColor(context, (CGFloat []) { 1, 1, 1, 1 });
-//    CGContextAddRect(context, (struct CGRect) { ((SCREEN_RECT.size.width * 0.5) - 10), 20, 20, 20 });
-//    CGContextFillPath(context);
+    
 }
 
 id LabelView_init(id self, SEL _cmd)
@@ -101,23 +80,23 @@ id LabelView_loadText(id self, SEL _cmd, const char *string)
     return self;
 }
 
-static void on_scroll_refresh(event_name_t event, const char *message, void *nothing)
-{
-    char *json = load_file(CFSTR("objs"), CFSTR("json"));
-    
-    JSON_Value *root_value = json_parse_string(json);
-    JSON_Array *array = json_value_get_array(root_value);
-    size_t count = json_array_get_count(array);
-    
-    srand((unsigned int)time(0));
-    size_t index = rand() % count;
-    
-    const char *string = json_array_get_string(array, index);
-    
-    LabelView_loadText(_self, sel_getUid("loadText:"), string);
-    
-    json_value_free(root_value);
-}
+//static void on_scroll_refresh(event_name_t event, const char *message, void *nothing)
+//{
+//    char *json = load_file(CFSTR("objs"), CFSTR("json"));
+//    
+//    JSON_Value *root_value = json_parse_string(json);
+//    JSON_Array *array = json_value_get_array(root_value);
+//    size_t count = json_array_get_count(array);
+//    
+//    srand((unsigned int)time(0));
+//    size_t index = rand() % count;
+//    
+//    const char *string = json_array_get_string(array, index);
+//    
+//    LabelView_loadText(_self, sel_getUid("loadText:"), string);
+//    
+//    json_value_free(root_value);
+//}
 
 // Once again we use the (constructor) attribute. generally speaking,
 // having many of these is a very bad idea, but in a small application
@@ -137,5 +116,5 @@ static void initView()
   
     objc_registerClassPair(LabelViewClass);
     
-    eventbus_subscribe(scroll_refresh_event, (event_handler_t)on_scroll_refresh, (void *)0);
+//    eventbus_subscribe(scroll_refresh_event, (event_handler_t)on_scroll_refresh, (void *)0);
 }

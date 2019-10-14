@@ -41,50 +41,9 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
     self->window = objc_msgSend(self->window, sel_getUid("initWithFrame:"), SCREEN_BOUNDS);
     
     // here, we are creating our view controller, and our view. note the use of objc_getClass, because we cannot reference UIViewController directly in C.
-    Class UIViewControllerClass = objc_getClass("UIViewController");
+    Class UIViewControllerClass = objc_getClass("MainViewController");
     id viewController = objc_msgSend(class_createInstance(UIViewControllerClass, 0), sel_getUid("init"));
-  
-    Class ScrollViewClass = objc_getClass("ScrollView");
-    id scrollView = objc_msgSend(class_createInstance(ScrollViewClass, 0), sel_getUid("initWithFrame:"), SCREEN_BOUNDS);
-    objc_msgSend(scrollView, sel_getUid("init:"));
-  
-    // creating our custom view class, there really isn't too much 
-    // to say here other than we are hard-coding the screen's bounds, 
-    // because returning a struct from a `objc_msgSend()` (via 
-    // [[UIScreen mainScreen] bounds]) requires a different function call
-    // and is finicky at best.
-    Class ViewClass = objc_getClass("View");
-    id view = objc_msgSend(class_createInstance(ViewClass, 0), sel_getUid("initWithFrame:"), SCREEN_BOUNDS);
-  
-    Class LabelViewClass = objc_getClass("LabelView");
-    id labelView = objc_msgSend(class_createInstance(LabelViewClass, 0), sel_getUid("init:"));
-  
-    char *json = load_file(CFSTR("objs"), CFSTR("json"));
-    //debug("json: %s", json);
-    JSON_Value *root_value = json_parse_string(json);
-    JSON_Array *array = json_value_get_array(root_value);
-    size_t count = json_array_get_count(array);
-  
-    srand((unsigned int)time(0));
-    size_t index = rand() % count;
-  
-    const char *string = json_array_get_string(array, index);
-  
-    objc_msgSend(labelView, sel_getUid("loadText:"), string);
-    objc_msgSend(view, sel_getUid("addSubview:"), labelView);
-    
-    json_value_free(root_value);
-  
-    // here we simply add the view to the view controller, and add the viewController to the window.
-    //objc_msgSend(objc_msgSend(viewController, sel_getUid("view")), sel_getUid("addSubview:"), view);
-    objc_msgSend(scrollView, sel_getUid("addSubview:"), view);
-  
-    objc_msgSend(objc_msgSend(viewController, sel_getUid("view")), sel_getUid("addSubview:"), scrollView);
-    
-    Class RoundButtonClass = objc_getClass("RoundButton");
-    id roundButton = objc_msgSend(class_createInstance(RoundButtonClass, 0), sel_getUid("init"));
-    objc_msgSend(roundButton, sel_getUid("init:"));
-    objc_msgSend(objc_msgSend(viewController, sel_getUid("view")), sel_getUid("addSubview:"), roundButton);
+    objc_msgSend(viewController, sel_getUid("init:"));
     
     objc_msgSend(self->window, sel_getUid("setRootViewController:"), viewController);
     

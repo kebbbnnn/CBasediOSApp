@@ -89,24 +89,24 @@ void ScrollView_drawRect(id self, SEL _cmd, CGRect rect)
     CGColorSpaceRelease(colorSpace);
 }
 
-/**
+///**
 void ScrollView_scrollViewDidScroll(id self, SEL _cmd, id scroll_view)
 {
     Ivar ivar = class_getInstanceVariable(ScrollViewClass, "_lastSetContentOffsetUnrounded");
     ptrdiff_t offset = ivar_getOffset(ivar);
     CGPoint contentOffset = *((CGPoint *)((uintptr_t)self + offset));
     CGFloat y = contentOffset.y;
-
+    debug("y value: %f", y);
     if (y < -(MAINTAINED_OFFSET_Y + TOP_OFFSET)){ met_negative_pull_down = true; }
 
     if (fabs(y) <= TOP_OFFSET && met_negative_pull_down)
     {
         // refresh
-        eventbus_post(scroll_refresh_event, (void *)0);
+        //eventbus_post(scroll_refresh_event, (void *)0);
         met_negative_pull_down = false;
     }
 }
- **/
+ //**/
 
 void ScrollView_refresh(id self, SEL _cmd)
 {
@@ -118,12 +118,12 @@ void ScrollView_refresh(id self, SEL _cmd)
 
 void ScrollView_init(id self, SEL _cmd)
 {
-    /**
+    ///**
     ScrollViewDelegate = objc_getProtocol("UIScrollViewDelegate");
     class_addProtocol(ScrollViewClass, ScrollViewDelegate);
     class_addMethod(ScrollViewClass, sel_registerName("scrollViewDidScroll:"), (IMP) ScrollView_scrollViewDidScroll, "v@:@");
     objc_msgSend(self, sel_getUid("setDelegate:"), self);
-     **/
+     //**/
     
     objc_msgSend(self, sel_getUid("setAlwaysBounceVertical:"), YES);
     objc_msgSend(self, sel_getUid("setBounces:"), YES);
