@@ -21,7 +21,7 @@
 
 EVENTBUS_DEFINE_EVENT(scroll_refresh_event);
 
-Class MainViewControllerClass;
+Class g_mainViewControllerClass;
 
 id g_scrollView;
 id g_contentView;
@@ -52,22 +52,18 @@ const char* _get_string()
 void MainViewController_viewDidLoad(id self, SEL _cmd)
 {
     debug("on UIViewController viewDidLoad()...");
-    
-    Class scrollViewClass = objc_getClass("ScrollView");
-    g_scrollView = objc_msgSend(class_createInstance(scrollViewClass, 0), sel_getUid("initWithFrame:"), SCREEN_BOUNDS);
+
+    g_scrollView = objc_msgSend(class_createInstance(objc_getClass("ScrollView"), 0),
+                                sel_getUid("initWithFrame:"),
+                                SCREEN_BOUNDS);
     objc_msgSend(g_scrollView, sel_getUid("init:"));
+  
+    g_contentView = objc_msgSend(class_createInstance(objc_getClass("View"), 0),
+                                 sel_getUid("initWithFrame:"),
+                                 SCREEN_BOUNDS);
     
-    // creating our custom view class, there really isn't too much
-    // to say here other than we are hard-coding the screen's bounds,
-    // because returning a struct from a `objc_msgSend()` (via
-    // [[UIScreen mainScreen] bounds]) requires a different function call
-    // and is finicky at best.
-    Class viewClass = objc_getClass("View");
-    g_contentView = objc_msgSend(class_createInstance(viewClass, 0), sel_getUid("initWithFrame:"), SCREEN_BOUNDS);
-    
-    Class labelViewClass = objc_getClass("LabelView");
-    g_labelView = objc_msgSend(class_createInstance(labelViewClass, 0), sel_getUid("init:"));
-    
+    g_labelView = objc_msgSend(class_createInstance(objc_getClass("LabelView"), 0),
+                               sel_getUid("init:"));
     objc_msgSend(g_labelView, sel_getUid("loadText:"), _get_string());
     objc_msgSend(g_contentView, sel_getUid("addSubview:"), g_labelView);
     
@@ -76,8 +72,8 @@ void MainViewController_viewDidLoad(id self, SEL _cmd)
     
     objc_msgSend(objc_msgSend(self, sel_getUid("view")), sel_getUid("addSubview:"), g_scrollView);
     
-    Class roundButtonClass = objc_getClass("RoundButton");
-    g_roundButton = objc_msgSend(class_createInstance(roundButtonClass, 0), sel_getUid("init"));
+    g_roundButton = objc_msgSend(class_createInstance(objc_getClass("RoundButton"), 0),
+                                 sel_getUid("init"));
     objc_msgSend(g_roundButton, sel_getUid("init:"));
     
     objc_msgSend(objc_msgSend(self, sel_getUid("view")), sel_getUid("addSubview:"), g_roundButton);
@@ -94,14 +90,13 @@ static void _on_scroll_refresh(event_name_t event, const char *message, void *no
 __attribute__((constructor))
 static void initViewController()
 {
-    MainViewControllerClass = objc_allocateClassPair((Class) objc_getClass("UIViewController"), "MainViewController", 0);
+    g_mainViewControllerClass = objc_allocateClassPair((Class) objc_getClass("UIViewController"), "MainViewController", 0);
     
-    class_addMethod(MainViewControllerClass, sel_getUid("init:"), (IMP) MainViewController_init, "v@:");
-    class_addMethod(MainViewControllerClass, sel_getUid("viewDidLoad"), (IMP) MainViewController_viewDidLoad, "v@:");
+    class_addMethod(g_mainViewControllerClass, sel_getUid("init:"), (IMP) MainViewController_init, "v@:");
+    class_addMethod(g_mainViewControllerClass, sel_getUid("viewDidLoad"), (IMP) MainViewController_viewDidLoad, "v@:");
     
     //dump_methods(class_getName(objc_getClass("UIViewController")));
-    
-    objc_registerClassPair(MainViewControllerClass);
+    objc_registerClassPair(g_mainViewControllerClass);
     
     eventbus_subscribe(scroll_refresh_event, (event_handler_t)_on_scroll_refresh, (void *)0);
 }
