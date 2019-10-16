@@ -21,11 +21,6 @@
 #include "Dumper.h"
 #include "shared.h"
 
-//EVENTBUS_DEFINE_EVENT(scroll_refresh_event);
-
-Class LabelViewClass;
-id _self;
-
 // Notice this. We must create this as an extern function, as we cannot include all
 // of UIKit. This works, but is definitely not optimal.
 extern CGContextRef UIGraphicsGetCurrentContext();
@@ -52,7 +47,6 @@ id LabelView_init(id self, SEL _cmd)
 
 id LabelView_loadText(id self, SEL _cmd, const char *string)
 {
-    _self = self;
     StringBuilder *sb = sb_create();
     
     if (sb == NULL){ return self; }
@@ -88,13 +82,13 @@ static void initView()
 {
     // Once again, just like the app delegate, we tell the runtime to
     // create a new class, this time a subclass of 'UIView' and named 'View'.
-    LabelViewClass = objc_allocateClassPair((Class) objc_getClass("UILabel"), "LabelView", 0);
+    Class labelViewClass = objc_allocateClassPair((Class) objc_getClass("UILabel"), "LabelView", 0);
   
     // We tell the runtime to add a function called init: and loadText:
     // to our custom view.
     // https://developer.apple.com/documentation/objectivec/1418901-class_addmethod?language=objc
-    class_addMethod(LabelViewClass, sel_getUid("init:"), (IMP) LabelView_init, "@@:");
-    class_addMethod(LabelViewClass, sel_getUid("loadText:"), (IMP) LabelView_loadText, "@@:*");
+    class_addMethod(labelViewClass, sel_getUid("init:"), (IMP) LabelView_init, "@@:");
+    class_addMethod(labelViewClass, sel_getUid("loadText:"), (IMP) LabelView_loadText, "@@:*");
   
-    objc_registerClassPair(LabelViewClass);
+    objc_registerClassPair(labelViewClass);
 }

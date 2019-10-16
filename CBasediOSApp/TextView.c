@@ -11,8 +11,8 @@
 #include <CoreGraphics/CoreGraphics.h>
 #include <stdio.h>
 #include "constants.h"
-
-Class g_textViewClass;
+#include "Dumper.h"
+#include "log.h"
 
 // Notice this. We must create this as an extern function, as we cannot include all
 // of UIKit. This works, but is definitely not optimal.
@@ -23,27 +23,31 @@ extern CGContextRef UIGraphicsGetCurrentContext();
 // stuck with the C-based mentality of the application.
 void TextView_drawRect(id self, SEL _cmd, CGRect rect)
 {
-    // We are simply getting the graphics context of the current view,
-    // so we can draw to it
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    // Then we set it's fill color to white so that we clear the background.
-    // Note the cast to (CGFloat []). Otherwise, this would give a warning
-    //  saying "invalid cast from type 'int' to 'CGFloat *', or
-    // 'extra elements in initializer'. Also note the assumption of RGBA.
-    // If this wasn't a demo application, I would strongly recommend against this,
-    // but for the most part you can be pretty sure that this is a safe move
-    // in an iOS application.
-    CGContextSetFillColor(context, (CGFloat []){ 1, 1, 1, 1 });
-    
-    // here, we simply add and draw the rect to the screen
-    CGContextAddRect(context, SCREEN_RECT);
-    CGContextFillPath(context);
+//    // We are simply getting the graphics context of the current view,
+//    // so we can draw to it
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//
+//    // Then we set it's fill color to white so that we clear the background.
+//    // Note the cast to (CGFloat []). Otherwise, this would give a warning
+//    //  saying "invalid cast from type 'int' to 'CGFloat *', or
+//    // 'extra elements in initializer'. Also note the assumption of RGBA.
+//    // If this wasn't a demo application, I would strongly recommend against this,
+//    // but for the most part you can be pretty sure that this is a safe move
+//    // in an iOS application.
+//    CGContextSetFillColor(context, (CGFloat []){ 1, 1, 1, 0.40 });
+//
+//    // here, we simply add and draw the rect to the screen
+//    CGContextAddRect(context, SCREEN_RECT);
+//    CGContextFillPath(context);
     
 }
 
 id TextView_init(id self, SEL _cmd)
 {
+    objc_msgSend(self, sel_getUid("setFont:"), objc_msgSend((id)objc_getClass("UIFont"), sel_getUid("systemFontOfSize:"), 34.0));
+    
+    id bgColor = objc_msgSend((id)objc_getClass("UIColor"), sel_getUid("colorWithWhite:alpha:"), 1.0, 0.60);
+    objc_msgSend(self, sel_getUid("setBackgroundColor:"), bgColor);
     return self;
 }
 
@@ -55,13 +59,13 @@ static void initView()
 {
     // Once again, just like the app delegate, we tell the runtime to
     // create a new class, this time a subclass of 'UIView' and named 'View'.
-    g_textViewClass = objc_allocateClassPair((Class) objc_getClass("UITextView"), "TextView", 0);
+    Class textViewClass = objc_allocateClassPair((Class) objc_getClass("UITextView"), "TextView", 0);
     
     // We tell the runtime to add a function called init: and loadText:
     // to our custom view.
     // https://developer.apple.com/documentation/objectivec/1418901-class_addmethod?language=objc
-    class_addMethod(g_textViewClass, sel_getUid("drawRect:"), (IMP) TextView_drawRect, VIEW_ARGS_ENC);
-    class_addMethod(g_textViewClass, sel_getUid("init:"), (IMP) TextView_init, "@@:");
+    class_addMethod(textViewClass, sel_getUid("drawRect:"), (IMP) TextView_drawRect, VIEW_ARGS_ENC);
+    class_addMethod(textViewClass, sel_getUid("init:"), (IMP) TextView_init, "@@:");
     
-    objc_registerClassPair(g_textViewClass);
+    objc_registerClassPair(textViewClass);
 }

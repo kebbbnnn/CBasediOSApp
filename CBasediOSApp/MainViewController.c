@@ -27,7 +27,7 @@ JSON_Array *g_array;
 
 void MainViewController_init(id self, SEL _cmd)
 {
-    debug("on UIViewController init()...");
+    debug("on %s init()...", class_getName(object_getClass(self)));
     _mvc_load_json_file();
 }
 
@@ -38,7 +38,7 @@ void MainViewController_viewWillAppear(id self, SEL _cmd)
 
 void MainViewController_viewDidLoad(id self, SEL _cmd)
 {
-    debug("on UIViewController viewDidLoad()...");
+    debug("on %s viewDidLoad()...", class_getName(object_getClass(self)));
     
     id mvcScrollView = objc_msgSend(class_createInstance(objc_getClass("ScrollView"), 0),
                                 sel_getUid("initWithFrame:"),

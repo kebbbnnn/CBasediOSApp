@@ -22,8 +22,6 @@
 
 EVENTBUS_DEFINE_EVENT(button_tapped_event);
 
-Class RoundButtonClass;
-
 // Notice this. We must create this as an extern function, as we cannot include all
 // of UIKit. This works, but is definitely not optimal.
 extern CGContextRef UIGraphicsGetCurrentContext();
@@ -100,14 +98,14 @@ static void initView()
 {
     // Once again, just like the app delegate, we tell the runtime to
     // create a new class, this time a subclass of 'UIView' and named 'View'.
-    RoundButtonClass = objc_allocateClassPair((Class) objc_getClass("UIButton"), "RoundButton", 0);
+    Class roundButtonClass = objc_allocateClassPair((Class) objc_getClass("UIButton"), "RoundButton", 0);
     
     // We tell the runtime to add a function called init: and loadText:
     // to our custom view.
     // https://developer.apple.com/documentation/objectivec/1418901-class_addmethod?language=objc
-    class_addMethod(RoundButtonClass, sel_getUid("drawRect:"), (IMP) RoundButton_drawRect, VIEW_ARGS_ENC);
-    class_addMethod(RoundButtonClass, sel_getUid("init:"), (IMP) RoundButton_init, "@@:");
-    class_addMethod(RoundButtonClass, sel_getUid("onTapped:"), (IMP) RoundButton_onTapped, "v@:");
+    class_addMethod(roundButtonClass, sel_getUid("drawRect:"), (IMP) RoundButton_drawRect, VIEW_ARGS_ENC);
+    class_addMethod(roundButtonClass, sel_getUid("init:"), (IMP) RoundButton_init, "@@:");
+    class_addMethod(roundButtonClass, sel_getUid("onTapped:"), (IMP) RoundButton_onTapped, "v@:");
     
-    objc_registerClassPair(RoundButtonClass);
+    objc_registerClassPair(roundButtonClass);
 }

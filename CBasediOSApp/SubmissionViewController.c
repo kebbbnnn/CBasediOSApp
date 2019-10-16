@@ -17,7 +17,7 @@ EVENTBUS_DEFINE_EVENT(scroll_pull_down_event);
 
 void SubmissionViewController_init(id self, SEL _cmd)
 {
-    debug("on UIViewController init()...");
+    debug("on %s init()...", class_getName(object_getClass(self)));
 }
 
 void SubmissionViewController_viewWillAppear(id self, SEL _cmd)
@@ -27,12 +27,29 @@ void SubmissionViewController_viewWillAppear(id self, SEL _cmd)
 
 void SubmissionViewController_viewDidLoad(id self, SEL _cmd)
 {
-    debug("on UIViewController viewDidLoad()...");
+    debug("on %s viewDidLoad()...", class_getName(object_getClass(self)));
     
     id svcScrollView = objc_msgSend(class_createInstance(objc_getClass("ScrollView"), 0),
                                 sel_getUid("initWithFrame:"),
                                 SCREEN_BOUNDS);
     objc_msgSend(svcScrollView, sel_getUid("init:"), 1);
+    
+    id svcContentView = objc_msgSend(class_createInstance(objc_getClass("UIView"), 0),
+                                     sel_getUid("initWithFrame:"),
+                                     SCREEN_BOUNDS);
+    
+    float screen_width = SCREEN_BOUNDS.size.width;
+    float screen_height = SCREEN_BOUNDS.size.height;
+    
+    CGRect textBounds = CGRectMake(20.0, 20.0, screen_width - 40.0, screen_height * 0.5);
+    id svcTextView = objc_msgSend(objc_msgSend(class_createInstance(objc_getClass("TextView"), 0),
+                                  sel_getUid("initWithFrame:"),
+                                  textBounds),
+                                  sel_getUid("init:"));
+    
+    objc_msgSend(svcContentView, sel_getUid("addSubview:"), svcTextView);
+    
+    objc_msgSend(svcScrollView, sel_getUid("addSubview:"), svcContentView);
     
     objc_msgSend(objc_msgSend(self, sel_getUid("view")),
                  sel_getUid("addSubview:"),

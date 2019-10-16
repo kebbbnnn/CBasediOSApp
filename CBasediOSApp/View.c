@@ -9,10 +9,6 @@
 #include <CoreGraphics/CoreGraphics.h>
 #include "constants.h"
 
-// This is a strong reference to the class of our custom view,
-// In case we need it in the future.
-Class ViewClass;
-
 // Notice this. We must create this as an extern function, as we cannot include all
 // of UIKit. This works, but is definitely not optimal.
 extern CGContextRef UIGraphicsGetCurrentContext();
@@ -54,7 +50,7 @@ static void initView()
 {
     // Once again, just like the app delegate, we tell the runtime to 
     // create a new class, this time a subclass of 'UIView' and named 'View'.
-    ViewClass = objc_allocateClassPair((Class) objc_getClass("UIView"), "View", 0);
+    Class viewClass = objc_allocateClassPair((Class) objc_getClass("UIView"), "View", 0);
   
     // and again, we tell the runtime to add a function called -drawRect: 
     // to our custom view. Note that there is an error in the type-specification
@@ -62,9 +58,9 @@ static void initView()
     // of the top of my head. As a result, there is a chance that the rect 
     // parameter of the method may not get passed properly.
     // https://developer.apple.com/documentation/objectivec/1418901-class_addmethod?language=objc
-    class_addMethod(ViewClass, sel_getUid("drawRect:"), (IMP) View_drawRect, VIEW_ARGS_ENC);
+    class_addMethod(viewClass, sel_getUid("drawRect:"), (IMP) View_drawRect, VIEW_ARGS_ENC);
     
     // And again, we tell the runtime that this class is now valid to be used. 
     // At this point, the application should run and display the screenshot shown below.
-    objc_registerClassPair(ViewClass);    
+    objc_registerClassPair(viewClass);    
 }

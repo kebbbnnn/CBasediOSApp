@@ -29,7 +29,6 @@
 EVENTBUS_DEFINE_EVENT(scroll_pull_down_event);
 EVENTBUS_DEFINE_EVENT(scroll_refresh_event);
 
-__unsafe_unretained Protocol *ScrollViewDelegate;
 bool met_negative_pull_down;
 
 short g_page = MAIN_PAGE;
@@ -102,8 +101,8 @@ void ScrollView_drawRect(id self, SEL _cmd, CGRect rect)
 ///**
 void ScrollView_scrollViewDidScroll(id self, SEL _cmd, id scroll_view)
 {
-    Class ScrollViewClass = object_getClass(self);
-    Ivar ivar = class_getInstanceVariable(ScrollViewClass, "_lastSetContentOffsetUnrounded");
+    Class scrollViewClass = object_getClass(self);
+    Ivar ivar = class_getInstanceVariable(scrollViewClass, "_lastSetContentOffsetUnrounded");
     ptrdiff_t offset = ivar_getOffset(ivar);
     CGPoint contentOffset = *((CGPoint *)((uintptr_t)self + offset));
     CGFloat y = contentOffset.y;
@@ -136,8 +135,8 @@ void ScrollView_init(id self, SEL _cmd, short _page)
     Class ScrollViewClass = object_getClass(self);
     
     ///**
-    ScrollViewDelegate = objc_getProtocol("UIScrollViewDelegate");
-    class_addProtocol(ScrollViewClass, ScrollViewDelegate);
+    __unsafe_unretained Protocol *scrollViewDelegate = objc_getProtocol("UIScrollViewDelegate");
+    class_addProtocol(ScrollViewClass, scrollViewDelegate);
     class_addMethod(ScrollViewClass, sel_registerName("scrollViewDidScroll:"), (IMP) ScrollView_scrollViewDidScroll, "v@:@");
     objc_msgSend(self, sel_getUid("setDelegate:"), self);
      //**/
