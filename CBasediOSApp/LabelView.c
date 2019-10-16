@@ -80,24 +80,6 @@ id LabelView_loadText(id self, SEL _cmd, const char *string)
     return self;
 }
 
-//static void on_scroll_refresh(event_name_t event, const char *message, void *nothing)
-//{
-//    char *json = load_file(CFSTR("objs"), CFSTR("json"));
-//    
-//    JSON_Value *root_value = json_parse_string(json);
-//    JSON_Array *array = json_value_get_array(root_value);
-//    size_t count = json_array_get_count(array);
-//    
-//    srand((unsigned int)time(0));
-//    size_t index = rand() % count;
-//    
-//    const char *string = json_array_get_string(array, index);
-//    
-//    LabelView_loadText(_self, sel_getUid("loadText:"), string);
-//    
-//    json_value_free(root_value);
-//}
-
 // Once again we use the (constructor) attribute. generally speaking,
 // having many of these is a very bad idea, but in a small application
 // like this, it really shouldn't be that big of an issue.
@@ -115,6 +97,4 @@ static void initView()
     class_addMethod(LabelViewClass, sel_getUid("loadText:"), (IMP) LabelView_loadText, "@@:*");
   
     objc_registerClassPair(LabelViewClass);
-    
-//    eventbus_subscribe(scroll_refresh_event, (event_handler_t)on_scroll_refresh, (void *)0);
 }

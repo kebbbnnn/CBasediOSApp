@@ -10,6 +10,7 @@
 #include <objc/message.h>
 #include <CoreGraphics/CoreGraphics.h>
 #include <stdio.h>
+#include "eventbus.h"
 #include "constants.h"
 #include "shared.h"
 #include "Dumper.h"
@@ -18,6 +19,8 @@
 #define BUTTON_TYPE_CUSTOM 0
 #define TOUCH_UP_INSIDE 1 << 6
 #define FRAME (struct CGRect) { SCREEN_BOUNDS.size.width - 50, 28, 32, 32 }
+
+EVENTBUS_DEFINE_EVENT(button_tapped_event);
 
 Class RoundButtonClass;
 
@@ -73,6 +76,8 @@ void RoundButton_onTapped(id self, SEL _cmd)
             objc_msgSend(self, sel_getUid("setTransform:"), CGAffineTransformIdentity);
         });
     });
+    
+    eventbus_post(button_tapped_event, (void *)self);
 }
 
 id RoundButton_init(id self, SEL _cmd)
@@ -86,6 +91,7 @@ id RoundButton_init(id self, SEL _cmd)
     //dump_methods(class_getName(class_getSuperclass(class_getSuperclass(objc_getClass("UIButton")))));
     return self;
 }
+
 // Once again we use the (constructor) attribute. generally speaking,
 // having many of these is a very bad idea, but in a small application
 // like this, it really shouldn't be that big of an issue.

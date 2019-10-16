@@ -28,6 +28,8 @@
 		FACFD3E32344C966009D0293 /* eventbus.c in Sources */ = {isa = PBXBuildFile; fileRef = FACFD3E22344C966009D0293 /* eventbus.c */; };
 		FAE49A8223536C0C00734815 /* MainViewController.c in Sources */ = {isa = PBXBuildFile; fileRef = FAE49A8123536C0C00734815 /* MainViewController.c */; };
 		FAE49A842353794500734815 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE49A832353794500734815 /* Launch Screen.storyboard */; };
+		FAE49A942355E9B700734815 /* SubmissionViewController.c in Sources */ = {isa = PBXBuildFile; fileRef = FAE49A932355E9B700734815 /* SubmissionViewController.c */; };
+		FAE49A972355F0A000734815 /* TextView.c in Sources */ = {isa = PBXBuildFile; fileRef = FAE49A962355F0A000734815 /* TextView.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +66,9 @@
 		FAE49A8123536C0C00734815 /* MainViewController.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MainViewController.c; sourceTree = "<group>"; };
 		FAE49A832353794500734815 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		FAE49A912355D53700734815 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		FAE49A922355E9B700734815 /* SubmissionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SubmissionViewController.h; sourceTree = "<group>"; };
+		FAE49A932355E9B700734815 /* SubmissionViewController.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = SubmissionViewController.c; sourceTree = "<group>"; };
+		FAE49A962355F0A000734815 /* TextView.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = TextView.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +120,7 @@
 				FA9D58D42322EED60071B66C /* ScrollView.c */,
 				FA93130C2335D8F200E85BAC /* LabelView.c */,
 				FAAC57932350EE0800924DDC /* RoundButton.c */,
+				FAE49A962355F0A000734815 /* TextView.c */,
 				FAE49A902355D50B00734815 /* Controllers */,
 				FA74AEF42347B33500254793 /* Extensions */,
 				FA39E56C2339050400FF2ACC /* Libraries */,
@@ -179,6 +185,8 @@
 			children = (
 				FAE49A8123536C0C00734815 /* MainViewController.c */,
 				FAE49A912355D53700734815 /* MainViewController.h */,
+				FAE49A932355E9B700734815 /* SubmissionViewController.c */,
+				FAE49A922355E9B700734815 /* SubmissionViewController.h */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -253,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FACFD3E023449EA5009D0293 /* Dumper.c in Sources */,
+				FAE49A972355F0A000734815 /* TextView.c in Sources */,
 				FAAC57942350EE0800924DDC /* RoundButton.c in Sources */,
 				FA39E571233B879B00FF2ACC /* defer.h in Sources */,
 				FA39E56B2338F81A00FF2ACC /* sb.c in Sources */,
@@ -267,6 +276,7 @@
 				FA39E56F233A5A6500FF2ACC /* parson.c in Sources */,
 				23728EA71546269400ED5A71 /* View.c in Sources */,
 				FA93131B2337ACFE00E85BAC /* read_data.c in Sources */,
+				FAE49A942355E9B700734815 /* SubmissionViewController.c in Sources */,
 				FA9D58D52322EED60071B66C /* ScrollView.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
