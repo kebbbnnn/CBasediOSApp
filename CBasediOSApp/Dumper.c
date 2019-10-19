@@ -61,6 +61,14 @@ void dump_ivars(const char *className)
     }
     
     free(ivars);
+    
+    Class superClass = class_getSuperclass(klass);
+    if (superClass != NULL)
+    {
+        const char *className = class_getName(superClass);
+        printf("\n\n------SUPERCLASS (%s)------\n\n", className);
+        dump_ivars(className);
+    }
 }
 
 
@@ -108,6 +116,14 @@ void dump_properties(const char *className)
     }
     
     free(properties);
+    
+    Class superClass = class_getSuperclass(klass);
+    if (superClass != NULL)
+    {
+        const char *className = class_getName(superClass);
+        printf("\n\n------SUPERCLASS (%s)------\n\n", className);
+        dump_properties(className);
+    }
 }
 
 
@@ -152,6 +168,14 @@ void dump_methods(const char *className)
     }
     
     free(methods);
+    
+    Class superClass = class_getSuperclass(klass);
+    if (superClass != NULL)
+    {
+        const char *className = class_getName(superClass);
+        printf("\n\n------SUPERCLASS (%s)------\n\n", className);
+        dump_methods(className);
+    }
 }
 
 

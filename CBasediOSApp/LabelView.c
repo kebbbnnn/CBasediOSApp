@@ -35,12 +35,12 @@ void LabelView_drawRect(id self, SEL _cmd, CGRect rect)
 
 id LabelView_init(id self, SEL _cmd)
 {
-    CGRect screenBounds = SCREEN_BOUNDS;
+    CGRect screenBounds = app_get_screen_bounds();
     CGFloat left = 10, top = 80;
     CGFloat width = screenBounds.size.width - (left * 2);
     CGFloat height = (screenBounds.size.width * 0.50) + top;
   
-    objc_msgSend(self, sel_getUid("initWithFrame:"), (struct CGRect) { left, top, width, height });
+    objc_msgSend(self, SELUID("initWithFrame:"), (struct CGRect) { left, top, width, height });
     //dump_methods(class_getName(class_getSuperclass(LabelViewClass)));
     return self;
 }
@@ -58,15 +58,15 @@ id LabelView_loadText(id self, SEL _cmd, const char *string)
     str = sb_concat(sb);
     
     id strObj = objc_msgSend((id) objc_getClass("NSString"), sel_registerName("stringWithUTF8String:"), str);
-    //objc_msgSend(self, sel_getUid("setText:"), strObj);
+    //objc_msgSend(self, SELUID("setText:"), strObj);
     
-    objc_msgSend(self, sel_getUid("setTextColor:"), objc_msgSend((id)objc_getClass("UIColor"), sel_getUid("whiteColor")));
-    objc_msgSend(self, sel_getUid("setFont:"), objc_msgSend((id)objc_getClass("UIFont"), sel_getUid("systemFontOfSize:"), 34.0));
-    objc_msgSend(self, sel_getUid("setTextAlignment:"), 1);
-    objc_msgSend(self, sel_getUid("setLineBreakMode:"), 0);
-    objc_msgSend(self, sel_getUid("setNumberOfLines:"), 0);
+    objc_msgSend(self, SELUID("setTextColor:"), objc_msgSend((id)objc_getClass("UIColor"), SELUID("whiteColor")));
+    objc_msgSend(self, SELUID("setFont:"), objc_msgSend((id)objc_getClass("UIFont"), SELUID("systemFontOfSize:"), 34.0));
+    objc_msgSend(self, SELUID("setTextAlignment:"), 1);
+    objc_msgSend(self, SELUID("setLineBreakMode:"), 0);
+    objc_msgSend(self, SELUID("setNumberOfLines:"), 0);
     
-    objc_msgSend(self, sel_getUid("highlight:"), strObj);
+    objc_msgSend(self, SELUID("highlight:"), strObj);
     
     free(str);
     sb_free(sb);
@@ -87,8 +87,8 @@ static void initView()
     // We tell the runtime to add a function called init: and loadText:
     // to our custom view.
     // https://developer.apple.com/documentation/objectivec/1418901-class_addmethod?language=objc
-    class_addMethod(labelViewClass, sel_getUid("init:"), (IMP) LabelView_init, "@@:");
-    class_addMethod(labelViewClass, sel_getUid("loadText:"), (IMP) LabelView_loadText, "@@:*");
+    class_addMethod(labelViewClass, SELUID("init:"), (IMP) LabelView_init, "@@:");
+    class_addMethod(labelViewClass, SELUID("loadText:"), (IMP) LabelView_loadText, "@@:*");
   
     objc_registerClassPair(labelViewClass);
 }

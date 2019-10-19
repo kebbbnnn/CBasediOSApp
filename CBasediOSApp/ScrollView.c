@@ -42,7 +42,7 @@ extern CGContextRef UIGraphicsGetCurrentContext();
 // stuck with the C-based mentality of the application.
 void ScrollView_drawRect(id self, SEL _cmd, CGRect rect)
 {
-    //CGRect screenBounds = SCREEN_BOUNDS;
+    //CGRect screenBounds = app_get_screen_bounds();
     
     // We are simply getting the graphics context of the current view,
     // so we can draw to it
@@ -80,8 +80,8 @@ void ScrollView_drawRect(id self, SEL _cmd, CGRect rect)
     CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace, components, locations, 2);
     
     CGFloat degree = 45 * M_PI / 180;
-    CGFloat width = SCREEN_BOUNDS.size.width;
-    CGFloat height = SCREEN_BOUNDS.size.height;
+    CGFloat width = app_get_screen_bounds().size.width;
+    CGFloat height = app_get_screen_bounds().size.height;
     
     CGPoint center = CGPointMake(width / 2, height / 2);
     
@@ -123,8 +123,8 @@ void ScrollView_refresh(id self, SEL _cmd)
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         eventbus_post(scroll_refresh_event, (void *)0);
         
-        id refreshControl = objc_msgSend(self, sel_getUid("refreshControl"));
-        objc_msgSend(refreshControl, sel_getUid("endRefreshing"));
+        id refreshControl = objc_msgSend(self, SELUID("refreshControl"));
+        objc_msgSend(refreshControl, SELUID("endRefreshing"));
     });
 }
 
@@ -138,18 +138,18 @@ void ScrollView_init(id self, SEL _cmd, short _page)
     __unsafe_unretained Protocol *scrollViewDelegate = objc_getProtocol("UIScrollViewDelegate");
     class_addProtocol(ScrollViewClass, scrollViewDelegate);
     class_addMethod(ScrollViewClass, sel_registerName("scrollViewDidScroll:"), (IMP) ScrollView_scrollViewDidScroll, "v@:@");
-    objc_msgSend(self, sel_getUid("setDelegate:"), self);
+    objc_msgSend(self, SELUID("setDelegate:"), self);
      //**/
     
-    objc_msgSend(self, sel_getUid("setAlwaysBounceVertical:"), YES);
-    objc_msgSend(self, sel_getUid("setBounces:"), YES);
+    objc_msgSend(self, SELUID("setAlwaysBounceVertical:"), YES);
+    objc_msgSend(self, SELUID("setBounces:"), YES);
     
-    id RefreshControl = objc_msgSend(class_createInstance(objc_getClass("UIRefreshControl"), 0), sel_getUid("init"));
-    objc_msgSend(RefreshControl, sel_getUid("addTarget:action:forControlEvents:"), self, sel_getUid("refresh:"), (1 << 12));
-    id const tintColor = objc_msgSend((id)objc_getClass("UIColor"), sel_getUid("colorWithWhite:alpha:"), 1.0, 0.6);
-    objc_msgSend(RefreshControl, sel_getUid("setTintColor:"), tintColor);
+    id RefreshControl = objc_msgSend(class_createInstance(objc_getClass("UIRefreshControl"), 0), SELUID("init"));
+    objc_msgSend(RefreshControl, SELUID("addTarget:action:forControlEvents:"), self, SELUID("refresh:"), (1 << 12));
+    id const tintColor = objc_msgSend((id)objc_getClass("UIColor"), SELUID("colorWithWhite:alpha:"), 1.0, 0.6);
+    objc_msgSend(RefreshControl, SELUID("setTintColor:"), tintColor);
     
-    objc_msgSend(self, sel_getUid("setRefreshControl:"), RefreshControl);
+    objc_msgSend(self, SELUID("setRefreshControl:"), RefreshControl);
 }
 
 // Once again we use the (constructor) attribute. generally speaking,
@@ -162,9 +162,9 @@ static void initView()
     // create a new class, this time a subclass of 'UIView' and named 'View'.
     Class ScrollViewClass = objc_allocateClassPair((Class) objc_getClass("UIScrollView"), "ScrollView", 0);
   
-    class_addMethod(ScrollViewClass, sel_getUid("drawRect:"), (IMP) ScrollView_drawRect, VIEW_ARGS_ENC);
-    class_addMethod(ScrollViewClass, sel_getUid("init:"), (IMP) ScrollView_init, "v@:i");
-    class_addMethod(ScrollViewClass, sel_getUid("refresh:"), (IMP) ScrollView_refresh, "v@:");
+    class_addMethod(ScrollViewClass, SELUID("drawRect:"), (IMP) ScrollView_drawRect, VIEW_ARGS_ENC);
+    class_addMethod(ScrollViewClass, SELUID("init:"), (IMP) ScrollView_init, "v@:i");
+    class_addMethod(ScrollViewClass, SELUID("refresh:"), (IMP) ScrollView_refresh, "v@:");
   
     // And again, we tell the runtime that this class is now valid to be used.
     // At this point, the application should run and display the screenshot shown below.

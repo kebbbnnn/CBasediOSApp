@@ -41,43 +41,43 @@ void MainViewController_viewDidLoad(id self, SEL _cmd)
     debug("on %s viewDidLoad()...", class_getName(object_getClass(self)));
     
     id mvcScrollView = objc_msgSend(class_createInstance(objc_getClass("ScrollView"), 0),
-                                sel_getUid("initWithFrame:"),
-                                SCREEN_BOUNDS);
-    objc_msgSend(mvcScrollView, sel_getUid("init:"), 0);
+                                SELUID("initWithFrame:"),
+                                app_get_screen_bounds());
+    objc_msgSend(mvcScrollView, SELUID("init:"), 0);
   
     id mvcContentView = objc_msgSend(class_createInstance(objc_getClass("View"), 0),
-                                 sel_getUid("initWithFrame:"),
-                                 SCREEN_BOUNDS);
-    
+                                 SELUID("initWithFrame:"),
+                                 app_get_screen_bounds());
+
     id mvcLabelView = objc_msgSend(class_createInstance(objc_getClass("LabelView"), 0),
-                               sel_getUid("init:"));
+                               SELUID("init:"));
     
-    objc_msgSend(mvcLabelView, sel_getUid("setTag:"), "_mvcLabelView");
+    objc_msgSend(mvcLabelView, SELUID("setTag:"), "_mvcLabelView");
     
     objc_msgSend(mvcLabelView,
-                 sel_getUid("loadText:"),
+                 SELUID("loadText:"),
                  _mvc_get_string());
     
     objc_msgSend(mvcContentView,
-                 sel_getUid("addSubview:"),
+                 SELUID("addSubview:"),
                  mvcLabelView);
     
     // here we simply add the view to the view controller,
     // and add the viewController to the window.
     objc_msgSend(mvcScrollView,
-                 sel_getUid("addSubview:"),
+                 SELUID("addSubview:"),
                  mvcContentView);
     
-    objc_msgSend(objc_msgSend(self, sel_getUid("view")),
-                 sel_getUid("addSubview:"),
+    objc_msgSend(objc_msgSend(self, SELUID("view")),
+                 SELUID("addSubview:"),
                  mvcScrollView);
     
     id mvcRoundButton = objc_msgSend(class_createInstance(objc_getClass("RoundButton"), 0),
-                                 sel_getUid("init"));
-    objc_msgSend(mvcRoundButton, sel_getUid("init:"));
+                                 SELUID("init"));
+    objc_msgSend(mvcRoundButton, SELUID("init:"));
     
-    objc_msgSend(objc_msgSend(self, sel_getUid("view")),
-                 sel_getUid("addSubview:"),
+    objc_msgSend(objc_msgSend(self, SELUID("view")),
+                 SELUID("addSubview:"),
                  mvcRoundButton);
 }
 
@@ -95,22 +95,22 @@ static void initViewController()
     Class mvcClass = objc_allocateClassPair((Class) objc_getClass("UIViewController"), "MainViewController", 0);
     
     class_addMethod(mvcClass,
-                    sel_getUid("init:"),
+                    SELUID("init:"),
                     (IMP) MainViewController_init,
                     "v@:");
     
     class_addMethod(mvcClass,
-                    sel_getUid("viewDidLoad"),
+                    SELUID("viewDidLoad"),
                     (IMP) MainViewController_viewDidLoad,
                     "v@:");
     
     class_addMethod(mvcClass,
-                    sel_getUid("viewWillAppear:"),
+                    SELUID("viewWillAppear:"),
                     (IMP) MainViewController_viewWillAppear,
                     "v@:");
     
     class_addMethod(mvcClass,
-                    sel_getUid("viewWillDisappear:"),
+                    SELUID("viewWillDisappear:"),
                     (IMP) MainViewController_viewWillDisappear,
                     "v@:");
     
@@ -164,7 +164,7 @@ static void _mvc_on_scroll_refresh(event_name_t event, const char *message, void
     id mvcLabelView = app_get_view_with_tag(sender, "_mvcLabelView");
     if (mvcLabelView != NULL)
     {
-        objc_msgSend(mvcLabelView, sel_getUid("loadText:"), _mvc_get_string());
+        objc_msgSend(mvcLabelView, SELUID("loadText:"), _mvc_get_string());
     }
 }
 
@@ -175,9 +175,9 @@ static void _mvc_on_button_tapped(event_name_t event, const char *message, void 
     
     if (sender != NULL)
     {
-        id vc = objc_msgSend(class_createInstance(objc_getClass("SubmissionViewController"), 0), sel_getUid("init"));
-        objc_msgSend(vc, sel_getUid("init:"));
+        id vc = objc_msgSend(class_createInstance(objc_getClass("SubmissionViewController"), 0), SELUID("init"));
+        objc_msgSend(vc, SELUID("init:"));
         
-        objc_msgSend(sender, sel_getUid("presentViewController:animated:completion:"), vc, YES, nil);
+        objc_msgSend(sender, SELUID("presentViewController:animated:completion:"), vc, YES, nil);
     }
 }

@@ -34,21 +34,21 @@ BOOL AppDel_didFinishLaunching(struct AppDel *self, SEL _cmd, void *application,
 {
     // we +alloc and -initWithFrame: our window here, so that we can have it show on screen (eventually).
     // this entire method is the objc-runtime based version of the standard View-Based application's launch code, so nothing here really should surprise you.
-    // one thing important to note, though is that we use `sel_getUid()` instead of @selector().
+    // one thing important to note, though is that we use `SELUID()` instead of @selector().
     // this is because @selector is an objc language construct, and the application would not have been created in C if I used @selector.
     Class UIWindowClass = objc_getClass("UIWindow");
     self->window = class_createInstance(UIWindowClass, 0);
-    self->window = objc_msgSend(self->window, sel_getUid("initWithFrame:"), SCREEN_BOUNDS);
+    self->window = objc_msgSend(self->window, SELUID("initWithFrame:"), app_get_screen_bounds());
     
     // here, we are creating our view controller, and our view. note the use of objc_getClass, because we cannot reference UIViewController directly in C.
     Class UIViewControllerClass = objc_getClass("MainViewController");
-    id viewController = objc_msgSend(class_createInstance(UIViewControllerClass, 0), sel_getUid("init"));
-    objc_msgSend(viewController, sel_getUid("init:"));
+    id viewController = objc_msgSend(class_createInstance(UIViewControllerClass, 0), SELUID("init"));
+    objc_msgSend(viewController, SELUID("init:"));
     
-    objc_msgSend(self->window, sel_getUid("setRootViewController:"), viewController);
+    objc_msgSend(self->window, SELUID("setRootViewController:"), viewController);
     
     // finally, we display the window on-screen.
-    objc_msgSend(self->window, sel_getUid("makeKeyAndVisible"));
+    objc_msgSend(self->window, SELUID("makeKeyAndVisible"));
   
     return YES;
 }
@@ -76,10 +76,10 @@ static void initAppDel()
     // -application:didFinishLaunchingWithOptions:, and link that to our custom 
     // function defined above. Notice the final parameter. This tells the runtime
     // the types of arguments received by the function.
-    class_addMethod(AppDelClass, sel_getUid("application:didFinishLaunchingWithOptions:"), (IMP) AppDel_didFinishLaunching, "i@:@@");
+    class_addMethod(AppDelClass, SELUID("application:didFinishLaunchingWithOptions:"), (IMP) AppDel_didFinishLaunching, "i@:@@");
   
     //- (void)applicationDidEnterBackground:(UIApplication *)application NS_AVAILABLE_IOS(4_0);
-    class_addMethod(AppDelClass, sel_getUid("applicationDidEnterBackground:"), (IMP) AppDel_didEnterBackground, "v@:@");
+    class_addMethod(AppDelClass, SELUID("applicationDidEnterBackground:"), (IMP) AppDel_didEnterBackground, "v@:@");
   
     // Finally we tell the runtime that we have finished describing the class and 
     // we can let the rest of the application use it.

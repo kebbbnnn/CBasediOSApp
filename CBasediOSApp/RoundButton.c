@@ -18,7 +18,7 @@
 
 #define BUTTON_TYPE_CUSTOM 0
 #define TOUCH_UP_INSIDE 1 << 6
-#define FRAME (struct CGRect) { SCREEN_BOUNDS.size.width - 50, 28, 32, 32 }
+#define FRAME (struct CGRect) { app_get_screen_bounds().size.width - 50, 28, 32, 32 }
 
 EVENTBUS_DEFINE_EVENT(button_tapped_event);
 
@@ -67,11 +67,11 @@ void RoundButton_onTapped(id self, SEL _cmd)
 {
     id const UIButton = (id)objc_getClass("UIButton");
     
-    objc_msgSend(UIButton, sel_getUid("animateWithDuration:animations:completion:"), 0.1, ^{
-        objc_msgSend(self, sel_getUid("setTransform:"), CGAffineTransformMakeScale(0.95, 0.94));
+    objc_msgSend(UIButton, SELUID("animateWithDuration:animations:completion:"), 0.1, ^{
+        objc_msgSend(self, SELUID("setTransform:"), CGAffineTransformMakeScale(0.95, 0.94));
     }, ^{
-        objc_msgSend(UIButton, sel_getUid("animateWithDuration:animations:"), 0.2, ^{
-            objc_msgSend(self, sel_getUid("setTransform:"), CGAffineTransformIdentity);
+        objc_msgSend(UIButton, SELUID("animateWithDuration:animations:"), 0.2, ^{
+            objc_msgSend(self, SELUID("setTransform:"), CGAffineTransformIdentity);
         });
     });
     
@@ -80,11 +80,11 @@ void RoundButton_onTapped(id self, SEL _cmd)
 
 id RoundButton_init(id self, SEL _cmd)
 {
-    objc_msgSend(self, sel_getUid("setFrame:"), FRAME);
-    objc_msgSend(self, sel_getUid("_setButtonType:"), BUTTON_TYPE_CUSTOM);
-    objc_msgSend(objc_msgSend(self, sel_getUid("layer")), sel_getUid("setCornerRadius:"), (0.5 * FRAME.size.width));
-    objc_msgSend(self, sel_getUid("setClipsToBounds:"), TRUE);
-    objc_msgSend(self, sel_getUid("addTarget:action:forEvents:"), self, sel_getUid("onTapped:"), TOUCH_UP_INSIDE);
+    objc_msgSend(self, SELUID("setFrame:"), FRAME);
+    objc_msgSend(self, SELUID("_setButtonType:"), BUTTON_TYPE_CUSTOM);
+    objc_msgSend(objc_msgSend(self, SELUID("layer")), SELUID("setCornerRadius:"), (0.5 * FRAME.size.width));
+    objc_msgSend(self, SELUID("setClipsToBounds:"), TRUE);
+    objc_msgSend(self, SELUID("addTarget:action:forEvents:"), self, SELUID("onTapped:"), TOUCH_UP_INSIDE);
 
     //dump_methods(class_getName(class_getSuperclass(class_getSuperclass(objc_getClass("UIButton")))));
     return self;
@@ -103,9 +103,9 @@ static void initView()
     // We tell the runtime to add a function called init: and loadText:
     // to our custom view.
     // https://developer.apple.com/documentation/objectivec/1418901-class_addmethod?language=objc
-    class_addMethod(roundButtonClass, sel_getUid("drawRect:"), (IMP) RoundButton_drawRect, VIEW_ARGS_ENC);
-    class_addMethod(roundButtonClass, sel_getUid("init:"), (IMP) RoundButton_init, "@@:");
-    class_addMethod(roundButtonClass, sel_getUid("onTapped:"), (IMP) RoundButton_onTapped, "v@:");
+    class_addMethod(roundButtonClass, SELUID("drawRect:"), (IMP) RoundButton_drawRect, VIEW_ARGS_ENC);
+    class_addMethod(roundButtonClass, SELUID("init:"), (IMP) RoundButton_init, "@@:");
+    class_addMethod(roundButtonClass, SELUID("onTapped:"), (IMP) RoundButton_onTapped, "v@:");
     
     objc_registerClassPair(roundButtonClass);
 }

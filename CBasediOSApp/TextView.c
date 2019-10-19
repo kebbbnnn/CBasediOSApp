@@ -44,10 +44,10 @@ void TextView_drawRect(id self, SEL _cmd, CGRect rect)
 
 id TextView_init(id self, SEL _cmd)
 {
-    objc_msgSend(self, sel_getUid("setFont:"), objc_msgSend((id)objc_getClass("UIFont"), sel_getUid("systemFontOfSize:"), 34.0));
-    
-    id bgColor = objc_msgSend((id)objc_getClass("UIColor"), sel_getUid("colorWithWhite:alpha:"), 1.0, 0.60);
-    objc_msgSend(self, sel_getUid("setBackgroundColor:"), bgColor);
+    objc_msgSend(self, SELUID("setFont:"), objc_msgSend((id)objc_getClass("UIFont"), SELUID("systemFontOfSize:"), 34.0));
+    //dump_methods(class_getName(object_getClass(self)));
+    id bgColor = objc_msgSend((id)objc_getClass("UIColor"), SELUID("colorWithWhite:alpha:"), 1.0, 0.60);
+    objc_msgSend(self, SELUID("setBackgroundColor:"), bgColor);
     return self;
 }
 
@@ -64,8 +64,8 @@ static void initView()
     // We tell the runtime to add a function called init: and loadText:
     // to our custom view.
     // https://developer.apple.com/documentation/objectivec/1418901-class_addmethod?language=objc
-    class_addMethod(textViewClass, sel_getUid("drawRect:"), (IMP) TextView_drawRect, VIEW_ARGS_ENC);
-    class_addMethod(textViewClass, sel_getUid("init:"), (IMP) TextView_init, "@@:");
+    class_addMethod(textViewClass, SELUID("drawRect:"), (IMP) TextView_drawRect, VIEW_ARGS_ENC);
+    class_addMethod(textViewClass, SELUID("init:"), (IMP) TextView_init, "@@:");
     
     objc_registerClassPair(textViewClass);
 }
